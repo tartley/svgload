@@ -28,6 +28,11 @@ class Path(object):
 
 
     def parse_color(self, color):
+        '''
+        color : string, eg: '#rrggbb'
+        (where rr, gg, bb are hex digits from 00 to ff)
+        returns triple of unsigned bytes, eg: (0, 128, 255)
+        '''
         return (
             int(color[1:3], 16),
             int(color[3:5], 16),
@@ -73,7 +78,6 @@ class Path(object):
             raise ValueError('parse_coord fail: %s' % first)
 
         return (x, -y)
-
 
 
     def parse_path(self, path):
@@ -139,8 +143,8 @@ class Path(object):
 
 def create_batch(paths):
     '''
-    svg_paths: dict of Path objects
-    returns a pyglet Batch populated with indexed GL_TRIANGLES
+    paths: dict of Path objects
+    returns a pyglet Batch object populated with indexed GL_TRIANGLES
     '''
     batch = Batch()
     for path in paths.values():
@@ -160,4 +164,4 @@ def svg2batch(filename):
         path = Path(path_tag)
         paths[path.id] = path
     return create_batch(paths)
-    
+
