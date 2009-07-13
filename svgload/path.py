@@ -8,9 +8,13 @@ class ParseError(Exception):
 
 class Path(object):
     '''
-    Corresponds to a single SVG path tag. It may contain many independant loops
-    which may represent disjoint polygons or holes. All loops share a single
-    color.
+    id : string, copied from the svg tag's id attribute
+    color : triple of unsigned bytes, (r, g, b)
+    loops : a list of loops.
+        A loop is a list of vertices. A coord is a pair of floats or ints.
+        See 'parse_path'
+    A Path corresponds to a single SVG path tag. It may contain many
+    independant loops which may represent disjoint polygons or holes.
     '''
     def __init__(self, path_tag):
         self.id = path_tag.attributes['id'].value

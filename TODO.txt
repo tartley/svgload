@@ -1,20 +1,21 @@
 
 TODO
 
-+ tesselate loops with more than three vertices
 + calculate centroid anchor point if none specified
 + nested loops that form holes and islands
 + color gradients
 + specify an anchor point in the svg
 + opacity
 + expose named paths, for eg. collision detection
++ don't tesselate collision detection paths - because they aren't filled?
 
 DONE
 
 + construct an GL_TRIANGLES batch using indexed vertices from hard-coded params
 + parse coords of a single triangle from svg (one-red-triangle.svg demo)
 + parse fill color from svg file
-+ invert y coords (svg y axis points down, ours points up)
-+ path coord lists can be comma or space separated
+* invert y coords (svg y axis points down, ours points up)
+* path coord lists can be comma or space separated
 + multiple loops per path (three-orange-triangles.svg demo)
++ tesselate loops with more than three vertices (green-star.svg)
 
