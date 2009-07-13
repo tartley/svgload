@@ -37,7 +37,7 @@ def on_draw():
 
 
 def init_window():
-    window = Window(visible=False, fullscreen=True)
+    window = Window(visible=False, fullscreen=False)
     glClearColor(0.4, 0.6, 1.0, 0.0)
     glMatrixMode(GL_MODELVIEW)
     glLoadIdentity()
