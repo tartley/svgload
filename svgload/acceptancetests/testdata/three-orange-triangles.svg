@@ -8,8 +8,8 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="744.09448"
-   height="1052.3622"
+   width="400"
+   height="400"
    id="svg2"
    sodipodi:version="0.32"
    inkscape:version="0.46"
@@ -36,10 +36,10 @@
      objecttolerance="10"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.2825432"
-     inkscape:cx="283.46457"
-     inkscape:cy="354.33071"
-     inkscape:document-units="mm"
+     inkscape:zoom="2.045"
+     inkscape:cx="200"
+     inkscape:cy="200"
+     inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:showpageshadow="false"
@@ -51,11 +51,11 @@
     <inkscape:grid
        type="xygrid"
        id="grid2407"
-       units="mm"
+       units="px"
        visible="true"
        enabled="true"
-       spacingx="10mm"
-       spacingy="10mm"
+       spacingx="10px"
+       spacingy="10px"
        color="#000083"
        opacity="0.05882353" />
   </sodipodi:namedview>
@@ -75,8 +75,8 @@
      inkscape:groupmode="layer"
      id="layer1">
     <path
-       style="fill:#ffdd55;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1"
-       d="M 460.625 379.125 L 248.03125 627.15625 L 488.1875 627.15625 L 460.625 379.125 z M 492.125 662.59375 L 202.78125 923 L 531.5 1016.9375 L 492.125 662.59375 z M 177.15625 709.84375 L 35.4375 875.1875 L 177.15625 915.6875 L 177.15625 709.84375 z "
-       id="path2405" />
+       style="fill:#ff7f2a;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 150 10 L 74.875 90.5 L 159.375 98.9375 L 150 10 z M 70 95.71875 L 10 160 L 70 175 L 70 95.71875 z M 160.28125 107.78125 L 74.75 176.1875 L 170 200 L 160.28125 107.78125 z "
+       id="path2442" />
   </g>
 </svg>

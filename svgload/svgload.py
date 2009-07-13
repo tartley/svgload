@@ -47,21 +47,40 @@ class Path(object):
         return (0, 0, 0)
 
 
-    def parse_coord(self, coord):
+    def parse_coord(self, items):
         '''
-        coord : string, eg. '12.345,67.890'
-        returns tuple, eg. (12.345, -67.89)
-        Note how y co-ord is inverted. Inkscape up is SVG down.
+        items: list of strings, which may end with either of:
+            [..., 'x,y']
+            [..., 'y', 'x']
+            where x and y look like either ints or floats.
+        returns tuple (x, y) as floats.
+        Pops consumed values off the list.
+        Returned Y co-ord is inverted - SVG Y-axis points down, we use up.
         '''
-        x, y = map(float, coord.split(','))
+        first = items.pop()
+        comma_separated = first.split(',')
+        
+        # coords are comma separated
+        if len(comma_separated) == 2:
+            x, y = map(float, comma_separated)
+
+        # coords are space separated
+        elif len(comma_separated) == 1:
+            x = float(first)
+            y = float(items.pop())
+
+        else:
+            raise ValueError('parse_coord fail: %s' % first)
+
         return (x, -y)
+
 
 
     def parse_path(self, path):
         '''
         path: string, eg:
-            M 460.62992,744.09441 L 35.433071,1240.1574 L 531.49606,1381.8897
-            L 460.62992,744.09441 z 
+            M 460.6,744.0 L 35.4,120.1 L 531.4,131.8 L 460.6,744.0 z etc...
+            (or with space instead of the commas)
         returns list of loops, one for each M L L L z sequence, eg. [
             [ 
                 [ (460.6,744.0), (35.4, 1240.1), (531.4, 1381.8) ],
@@ -79,9 +98,9 @@ class Path(object):
         while items:
             item = items.pop()
             if item == 'M':
-                current_path = [self.parse_coord(items.pop())]
+                current_path = [self.parse_coord(items)]
             elif item == 'L':
-                current_path.append(self.parse_coord(items.pop()))
+                current_path.append(self.parse_coord(items))
             elif item == 'z':
                 if current_path[0] == current_path[-1]:
                     current_path = current_path[:-1]
@@ -92,15 +111,22 @@ class Path(object):
         return loops
 
 
+    def _serialise_verts(self):
+        for loop in self.loops:
+            for vert in loop:
+                yield vert[0]
+                yield vert[1]
+
+
     def to_verts(self):
         '''
         return a tuple representing this path's loops, suitable for passing
         to pyglet's Batch.add_indexed()
         '''
-        num_verts = len(self.loops[0])
-        indices = range(num_verts)
-        serial_verts = list(chain(*self.loops[0]))
+        num_verts = sum(len(loop) for loop in self.loops)
+        serial_verts = list(self._serialise_verts())
         colors = self.color * num_verts
+        indices = range(num_verts)
         return (
             num_verts,
             GL_TRIANGLES,
@@ -116,9 +142,9 @@ def create_batch(paths):
     svg_paths: dict of Path objects
     returns a pyglet Batch populated with indexed GL_TRIANGLES
     '''
-    path = paths.values()[0]
     batch = Batch()
-    batch.add_indexed(*path.to_verts())
+    for path in paths.values():
+        batch.add_indexed(*path.to_verts())
     return batch    
 
 

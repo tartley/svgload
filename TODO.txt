@@ -14,6 +14,7 @@ DONE
 
 + construct an GL_TRIANGLES batch using indexed vertices from hard-coded params
 + parse one-red-triangle.svg to get co-ordinates
-+ parse color
-+ invert y coords
++ parse plain fill color for each path
++ invert y coords (svg y axis points down, ours points up)
++ path coord lists can be comma or space separated
 
