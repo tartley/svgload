@@ -1,10 +1,11 @@
 from __future__ import division
 
-from os.path import isfile
+from os import listdir
+from os.path import isfile, join
 import sys
 
 from pyglet import app
-from pyglet.window import Window
+from pyglet.window import key, Window
 from pyglet.gl import (
     glClear, glClearColor, glLoadIdentity, glMatrixMode, gluLookAt,
     GL_COLOR_BUFFER_BIT, GL_MODELVIEW, GL_PROJECTION, GL_TRIANGLES
@@ -12,6 +13,18 @@ from pyglet.gl import (
 from pyglet.gl.glu import gluOrtho2D
 
 from svgload.svgload import svg2batch
+
+
+window = None
+filenames = []
+current = -1
+drawables = [None]
+
+
+def get_filenames():
+    for filename in listdir('testdata'):
+        if filename.endswith('.svg'):
+            filenames.append(join('testdata', filename))
 
 
 def on_resize(width, height):
@@ -26,9 +39,6 @@ def on_resize(width, height):
         -scale,
         +scale)
 
-
-drawables = []
-
 def on_draw():
     glClear(GL_COLOR_BUFFER_BIT)
     for drawable in drawables:
@@ -36,9 +46,16 @@ def on_draw():
     return
 
 
+def on_key_press(symbol, modifiers):
+    if symbol == key.ESCAPE:
+        window.close()
+    parse_next_file()
+
+
 def init_window():
+    global window
     window = Window(visible=False, fullscreen=False)
-    glClearColor(0.4, 0.6, 1.0, 0.0)
+    glClearColor(0.4, 0.6, 0.0, 0.0)
     glMatrixMode(GL_MODELVIEW)
     glLoadIdentity()
     gluLookAt(
@@ -47,26 +64,21 @@ def init_window():
         0.0, 1.0, 0.0)
     window.on_resize = on_resize
     window.on_draw = on_draw
+    window.on_key_press = on_key_press
     window.set_visible()
 
 
-def parse_args():
-    if len(sys.argv) != 2:
-        print 'USAGE: demo <filename>'
-        sys.exit(1)
-
-    filename = sys.argv[1]
-    if not isfile(filename):
-        print 'No such file: %s' % (filename,)
-        sys.exit(1)
-
-    return filename
+def parse_next_file():
+    global current
+    current = (current + 1) % len(filenames)
+    print filenames[current]
+    drawables[0] = svg2batch(filenames[current])
 
 
 def main():
-    filename = parse_args()
+    get_filenames()
+    parse_next_file()
     init_window()
-    drawables.append(svg2batch(filename))
     app.run()
 
 
