@@ -1,3 +1,3 @@
 
-python -m svgload.acceptancetests.demo svgload\acceptancetests\testdata\three-orange-triangles.svg
+python demo.py testdata\three-orange-triangles.svg
 
