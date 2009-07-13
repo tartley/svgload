@@ -16,7 +16,7 @@ from svgload.svgload import svg2batch
 
 def on_resize(width, height):
     # scale is distance from screen centre to top or bottom, in world coords
-    scale = 2000 
+    scale = 200 
     glMatrixMode(GL_PROJECTION)
     glLoadIdentity()
     aspect = width / height

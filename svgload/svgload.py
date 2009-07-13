@@ -50,9 +50,11 @@ class Path(object):
     def parse_coord(self, coord):
         '''
         coord : string, eg. '12.345,67.890'
-        returns tuple, eg. (12.345, 67.89)
+        returns tuple, eg. (12.345, -67.89)
+        Note how y co-ord is inverted. Inkscape up is SVG down.
         '''
-        return tuple(map(float, coord.split(',')))
+        x, y = map(float, coord.split(','))
+        return (x, -y)
 
 
     def parse_path(self, path):

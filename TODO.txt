@@ -1,0 +1,19 @@
+
+TODO
+
++ multiple loops per path
++ anchor point
++ calculate centroid anchor point if none specified
++ tesselate loops with more than three vertices
++ nested loops that form holes and islands
++ color gradients
++ opacity
++ expose named paths, for eg. collision detection
+
+DONE
+
++ construct an GL_TRIANGLES batch using indexed vertices from hard-coded params
++ parse one-red-triangle.svg to get co-ordinates
++ parse color
++ invert y coords
+
