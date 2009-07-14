@@ -14,18 +14,10 @@
    sodipodi:version="0.32"
    inkscape:version="0.46"
    version="1.0"
-   sodipodi:docname="one-red-triangle.svg"
+   sodipodi:docname="01-one-red-triangle.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape">
   <defs
-     id="defs2383">
-    <inkscape:perspective
-       sodipodi:type="inkscape:persp3d"
-       inkscape:vp_x="0 : 526.18109 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_z="744.09448 : 526.18109 : 1"
-       inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
-       id="perspective2389" />
-  </defs>
+     id="defs2383" />
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
@@ -36,9 +28,9 @@
      objecttolerance="10"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="2.045"
-     inkscape:cx="200"
-     inkscape:cy="200"
+     inkscape:zoom="4.3052632"
+     inkscape:cx="90"
+     inkscape:cy="295"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"

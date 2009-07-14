@@ -8,13 +8,13 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="744.09448"
-   height="1052.3622"
+   width="400"
+   height="400"
    id="svg2"
    sodipodi:version="0.32"
    inkscape:version="0.46"
    version="1.0"
-   sodipodi:docname="cyan-star-with-hole.svg"
+   sodipodi:docname="06-cyan-star-with-hole.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape">
   <defs
      id="defs4">
@@ -36,10 +36,10 @@
      objecttolerance="10"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.81379"
-     inkscape:cx="315.68714"
-     inkscape:cy="354.33071"
-     inkscape:document-units="mm"
+     inkscape:zoom="2.045"
+     inkscape:cx="200"
+     inkscape:cy="200"
+     inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:showpageshadow="false"
@@ -51,11 +51,11 @@
     <inkscape:grid
        type="xygrid"
        id="grid2407"
-       units="mm"
+       units="px"
        visible="true"
        enabled="true"
-       spacingx="10mm"
-       spacingy="10mm"
+       spacingx="10px"
+       spacingy="10px"
        color="#000083"
        opacity="0.05882353" />
   </sodipodi:namedview>
@@ -75,8 +75,8 @@
      inkscape:groupmode="layer"
      id="layer1">
     <path
-       style="fill:#80e5ff;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1"
-       d="M 460.625 379.125 L 354.34375 503.15625 L 35.4375 520.875 L 141.71875 751.1875 L 35.4375 875.1875 L 318.90625 839.75 L 531.5 1016.9375 L 513.78125 857.46875 L 673.21875 591.71875 L 478.34375 538.59375 L 460.625 379.125 z M 106.3125 556.3125 L 602.375 627.15625 L 425.1875 875.1875 L 106.3125 556.3125 z "
+       style="fill:#80e5ff;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 129.98237,9.125 L 99.991182,44.298587 L 10,49.323385 L 39.991182,114.63689 L 10,149.80161 L 89.991185,139.75202 L 149.98236,190 L 144.98237,144.77682 L 189.97354,69.413711 L 134.98236,54.348183 L 129.98237,9.125 z M 30,59.372982 L 169.98236,79.463307 L 119.98236,149.80161 L 30,59.372982 z"
        id="path2405" />
   </g>
 </svg>
