@@ -43,11 +43,13 @@ callback_types = {
 
 
 def tesselate(loops):
-    print loops
+    print 'in', '%d loops' % (len(loops),), \
+        ['%d verts' % (len(loop),) for loop in loops]
     t = Tesselate()
     tesselated = t.tesselate(loops)
     loops[:] = [tesselated]
-    print loops
+    print 'out', len(loops), \
+        ['%d tris' % (len(loop) / 3,) for loop in loops]
 
 
 def set_tess_callback(which):
@@ -60,15 +62,34 @@ def set_tess_callback(which):
 
 class Tesselate(object):
 
+    def fan_to_triangles(self):
+        print '  fan ', len(self.curr_shape) - 2, 'tris'
+        c = self.curr_shape.pop(0)
+        p1 = self.curr_shape.pop(0)
+        while self.curr_shape:
+            p2 = self.curr_shape.pop(0)
+            self.tlist.extend([c, p1, p2])
+            p1 = p2
+
+    def strip_to_triangles(self):
+        print '  strip', len(self.curr_shape) - 2, 'tris'
+        p1 = self.curr_shape.pop(0)
+        p2 = self.curr_shape.pop(0)
+        while self.curr_shape:
+            p3 = self.curr_shape.pop(0)
+            self.tlist.extend([p1, p2, p3])
+            p1 = p2
+            p2 = p3
+
     def tesselate(self, looplist):
-        tlist = []
+        self.tlist = []
         self.curr_shape = []
         spareverts = []
 
         @set_tess_callback(GLU_TESS_VERTEX)
         def vertexCallback(vertex):
             vertex = cast(vertex, POINTER(GLdouble))
-            self.curr_shape.append(list(vertex[0:2]))
+            self.curr_shape.append(tuple(vertex[0:2]))
 
         @set_tess_callback(GLU_TESS_BEGIN)
         def beginCallback(which):
@@ -77,28 +98,14 @@ class Tesselate(object):
         @set_tess_callback(GLU_TESS_END)
         def endCallback():
             if self.tess_style == GL_TRIANGLE_FAN:
-                print 'FAN'
-                c = self.curr_shape.pop(0)
-                p1 = self.curr_shape.pop(0)
-                while self.curr_shape:
-                    p2 = self.curr_shape.pop(0)
-                    tlist.extend([c, p1, p2])
-                    p1 = p2
+                self.fan_to_triangles()
             elif self.tess_style == GL_TRIANGLE_STRIP:
-                print 'STRIP'
-                p1 = self.curr_shape.pop(0)
-                p2 = self.curr_shape.pop(0)
-                while self.curr_shape:
-                    p3 = self.curr_shape.pop(0)
-                    tlist.extend([p1, p2, p3])
-                    p1 = p2
-                    p2 = p3
+                self.strip_to_triangles()
             elif self.tess_style == GL_TRIANGLES:
-                print 'TRIANGLES'
-                tlist.extend(self.curr_shape)
+                print '  triangles', len(self.curr_shape) / 3
+                self.tlist.extend(self.curr_shape)
             else:
-                self.warn("Unrecognised tesselation style: %d" %
-                    (self.tess_style,))
+                self.warn("Unknown tesselation style: %d" % (self.tess_style,))
             self.tess_style = None
             self.curr_shape = []
 
@@ -118,7 +125,7 @@ class Tesselate(object):
             data = (GLdouble * 3)(x, y, z)
             dataOut[0] = cast(pointer(data), POINTER(GLvoid))
             spareverts.append(data)
-        
+
         data_lists = []
         for vlist in looplist:
             d_list = []
@@ -133,7 +140,7 @@ class Tesselate(object):
                 gluTessVertex(tess, v_data, v_data)
             gluTessEndContour(tess)
         gluTessEndPolygon(tess)
-        return tlist       
+        return self.tlist       
 
     def warn(self, message):
         raise TesselateError(message)
