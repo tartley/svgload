@@ -1,20 +1,24 @@
 
 TODO
 
-* figure out whether we can accept the mixture of TRIANGLES, FANS and STRIPS
-  produced by Tessellate. Doesn't that require drawing of multiple primitives
-  within a single Batch? Why not just get a single huge primitive of
-  TRIANGLES?
-* new class, Svg, which maintains a dict of Paths, and exposes aggregate
-  attributes like width, height, radius, so that programs like demo.py
-  can easily zoom to display an SVG file at an appropriate scale.
-* demo.py should zoom to display an SVG file at an appropriate scale.
-+ calculate centroid anchor point if none specified
+* we must preserve the ordering of paths so that they get added to the batch
+  (and drawn) in the right order. Double check how render order is represented
+  in the svg. Is it order of occurence, or something else?
+* merge the multiple GL_TRI primitives returned by tessellate() into a single
+  primitive. This must preserve the correct ordering of triangles within
+  a batch.
+* new class, Svg, which maintains an list of paths (ordering is important)
+  accessible by id (as though they were in a dict. An ordered dict?) and
+  exposes aggregate attributes like width, height, radius.
+* demo.py should use the exposed attributes of Svg to zoom and pan.
++ calculate a centroid anchor point, offset all paths so anchor is at origin
++ override calculated centroid with an anchor point in the svg
 + color gradients
-+ specify an anchor point in the svg
 + opacity
 + expose named paths, for eg. collision detection
 + don't tesselate collision detection paths - because they aren't filled?
+* add to PyPI
+* use in SoleScion
 
 DONE
 
