@@ -23,4 +23,5 @@ Many thanks to Martin O'Leary of supereffective.org, whos Squirtle module
 formed a major inspiration for this entire project, and in particular for
 his sublime tesselation code. This has been copied wholesale, under the terms
 of the BSD.
+http://www.supereffective.org/pages/Squirtle-SVG-Library
 
