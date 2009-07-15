@@ -27,7 +27,7 @@ def create_batch(paths):
     '''
     batch = Batch()
     for path in paths:
-        batch.add_indexed(*path.to_verts())
+        path.add_to_batch(batch)
     return batch    
 
 

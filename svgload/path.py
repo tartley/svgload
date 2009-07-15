@@ -121,16 +121,17 @@ class Path(object):
                 yield vert[1]
 
 
-    def to_verts(self):
+    def add_to_batch(self, batch):
         '''
-        return a tuple representing this path's loops, suitable for passing
-        to pyglet's Batch.add_indexed()
+        Adds itself to the given batch, as as single primitive of indexed
+        GL_TRIANGLES. Note that Batch will aggregate all such additions into
+        a single large primitive.
         '''
         num_verts = sum(len(loop) for loop in self.loops)
         serial_verts = list(self._serialise_verts())
         colors = self.color * num_verts
         indices = range(num_verts)
-        return (
+        batch.add_indexed(
             num_verts,
             GL_TRIANGLES,
             None,
