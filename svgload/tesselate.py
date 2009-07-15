@@ -1,6 +1,7 @@
-# With thanks to Martin O'Leary of Supereffective, from whos Squirtle module
-# this code is entirely lifted. Error are doubtless entirely mine, the
-# underlying genius entirely his. - Jonathan, tartley@tartley.com
+# Many thanks to Martin O'Leary of supereffective.org, whos Squirtle module
+# formed a major inspiration for this entire project, and in particular for
+# his sublime tesselation code. This has been copied wholesale, under the terms
+# of the BSD.
 
 from ctypes import CFUNCTYPE, POINTER, byref, cast
 
