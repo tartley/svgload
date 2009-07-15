@@ -6,38 +6,55 @@ from path import Path
 from tesselate import tesselate
 
 
-def parse_svg(filename):
-    '''
-    filename: string, absolute or relative filename of an SVG file
-    return: list of Path objects corresponding to the path tags in the file
-    '''
-    paths = []
-    doc = xml.dom.minidom.parse(filename)       
-    path_tags = doc.getElementsByTagName('path')
-    for path_tag in path_tags:
-        path = Path(path_tag)
-        paths.append(path)
-    return paths
-
-
-def create_batch(paths):
-    '''
-    paths: list of Path objects
-    returns a pyglet Batch object populated with indexed GL_TRIANGLES
-    '''
-    batch = Batch()
-    for path in paths:
-        path.add_to_batch(batch)
-    return batch    
-
 
 def svg2batch(filename):
     '''
     filename: string, absolute or relative filename of an SVG file
     return a pyglet Batch made from all the paths in the file
     '''
-    paths = parse_svg(filename)
-    for path in paths:
-        tesselate(path.loops)
-    return create_batch(paths)
+    svg_batch = SvgBatch(filename)
+    return svg_batch.create_batch()
+
+
+
+class SvgBatch(object):
+    '''
+    Corresponds to all the geometry from an SVG file, which will be rendered
+    as a single OpenGL primitive by pyglet Batch.
+    '''
+
+    def __init__(self, filename=None):
+        self.paths = []
+        if filename:
+            self.parse_svg(filename)
+            self.tessellate()
+
+    def parse_svg(self, filename):
+        '''
+        filename: string, absolute or relative filename of an SVG file
+        Populates self.paths from the <path> tags in the file.
+        '''
+        doc = xml.dom.minidom.parse(filename)       
+        path_tags = doc.getElementsByTagName('path')
+        for path_tag in path_tags:
+            path = Path(path_tag)
+            self.paths.append(path)
+
+    def tessellate(self):
+        '''
+        For the arbitrary polygons in self.paths, tessellate each one into
+        a single array of GL_TRIANGLES.
+        '''
+        for path in self.paths:
+            tesselate(path.loops)
+
+
+    def create_batch(self):
+        '''
+        returns a new pyglet Batch object populated with indexed GL_TRIANGLES
+        '''
+        batch = Batch()
+        for path in self.paths:
+            path.add_to_batch(batch)
+        return batch    
 

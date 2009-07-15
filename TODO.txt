@@ -1,10 +1,8 @@
 
 TODO
 
-* we must preserve the ordering of paths so that they get added to the batch
-  (and drawn) in the right order.
-* new class, Svg, which maintains an list of paths (ordering is important)
-  accessible by id (as though they were in a dict. An ordered dict?)
+* SvgBatch should not add unfilled paths to the batch
+* SvgBatch should expose individual paths by id
 * Svg exposes aggregate attributes like width, height, radius.
 * demo.py should use the exposed attributes of Svg to zoom and pan.
 + calculate a centroid anchor point, offset all paths so anchor is at origin
@@ -28,4 +26,7 @@ DONE
 + nested loops that form holes and islands (green-star-with-hole.svg works!)
 * merge the multiple GL_TRI primitives returned by tessellate() into a single
   primitive. NO! Don't. This is already done for us by Batch.
+* we must preserve the ordering of paths so that they get added to the batch
+  (and drawn) in the right order.
+* new class, SvgBatch, which maintains an list of paths
 

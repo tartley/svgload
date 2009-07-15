@@ -3,6 +3,7 @@ from __future__ import division
 from os import listdir
 from os.path import isfile, join
 import sys
+from random import uniform
 
 from pyglet import app, clock
 from pyglet.window import key, Window
@@ -31,6 +32,11 @@ class SvgFiles(object):
         ]
 
     def next(self):
+        glClearColor(
+            uniform(0.0, 1.0),
+            uniform(0.0, 1.0),
+            uniform(0.0, 1.0),
+            1.0)
         self.number = (self.number + 1) % len(self.filenames)
         print
         print self.filenames[self.number]
@@ -41,14 +47,12 @@ class SvgFiles(object):
 class PygletApp(object):
 
     def __init__(self):
-        self.files = SvgFiles()
-
         self.window = Window(visible=False, fullscreen=False)
         self.window.on_resize = self.on_resize
         self.window.on_draw = self.on_draw
         self.window.on_key_press = self.on_key_press
 
-        glClearColor(0.4, 0.6, 0.0, 0.0)
+        self.files = SvgFiles()
 
         glMatrixMode(GL_MODELVIEW)
         glLoadIdentity()
