@@ -1,3 +1,6 @@
+# With thanks to Martin O'Leary of Supereffective, from whos Squirtle module
+# this code is entirely lifted. Error are doubtless entirely mine, the
+# underlying genius entirely his. - Jonathan, tartley@tartley.com
 
 from ctypes import CFUNCTYPE, POINTER, byref, cast
 
@@ -126,6 +129,10 @@ class Tesselate(object):
             dataOut[0] = cast(pointer(data), POINTER(GLvoid))
             spareverts.append(data)
 
+        data_lists = self.create_data_lists(looplist)
+        return self.perform_tessellation(data_lists)
+
+    def create_data_lists(self, looplist):
         data_lists = []
         for vlist in looplist:
             d_list = []
@@ -133,6 +140,9 @@ class Tesselate(object):
                 v_data = (GLdouble * 3)(x, y, 0)
                 d_list.append(v_data)
             data_lists.append(d_list)
+        return data_lists
+
+    def perform_tessellation(self, data_lists):
         gluTessBeginPolygon(tess, None)
         for d_list in data_lists:    
             gluTessBeginContour(tess)
