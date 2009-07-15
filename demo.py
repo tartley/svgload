@@ -4,7 +4,7 @@ from os import listdir
 from os.path import isfile, join
 import sys
 
-from pyglet import app
+from pyglet import app, clock
 from pyglet.window import key, Window
 from pyglet.gl import (
     glClear, glClearColor, glLoadIdentity, glMatrixMode, gluLookAt,
@@ -41,12 +41,12 @@ class SvgFiles(object):
 class PygletApp(object):
 
     def __init__(self):
+        self.files = SvgFiles()
+
         self.window = Window(visible=False, fullscreen=False)
         self.window.on_resize = self.on_resize
         self.window.on_draw = self.on_draw
         self.window.on_key_press = self.on_key_press
-
-        self.files = SvgFiles()
 
         glClearColor(0.4, 0.6, 0.0, 0.0)
 
