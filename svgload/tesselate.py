@@ -77,7 +77,6 @@ class Tesselate(object):
         @set_tess_callback(GLU_TESS_END)
         def endCallback():
             if self.tess_style == GL_TRIANGLE_FAN:
-                print
                 print 'FAN'
                 c = self.curr_shape.pop(0)
                 p1 = self.curr_shape.pop(0)
@@ -86,7 +85,6 @@ class Tesselate(object):
                     tlist.extend([c, p1, p2])
                     p1 = p2
             elif self.tess_style == GL_TRIANGLE_STRIP:
-                print
                 print 'STRIP'
                 p1 = self.curr_shape.pop(0)
                 p2 = self.curr_shape.pop(0)
@@ -96,7 +94,6 @@ class Tesselate(object):
                     p1 = p2
                     p2 = p3
             elif self.tess_style == GL_TRIANGLES:
-                print
                 print 'TRIANGLES'
                 tlist.extend(self.curr_shape)
             else:

@@ -15,70 +15,81 @@ from pyglet.gl.glu import gluOrtho2D
 from svgload.svgload import svg2batch
 
 
-window = None
-filenames = []
-current = -1
-drawables = [None]
+class SvgFiles(object):
+
+    def __init__(self):
+        self.filenames = self.get_filenames('testdata')
+        self.number = -1
+        self.current = None
+        self.next()
+
+    def get_filenames(self, path):
+        return [
+            join(path, filename)
+            for filename in listdir(path)
+            if filename.endswith('.svg')
+        ]
+
+    def next(self):
+        self.number = (self.number + 1) % len(self.filenames)
+        print
+        print self.filenames[self.number]
+        self.current = svg2batch(self.filenames[self.number])
 
 
-def get_filenames():
-    for filename in listdir('testdata'):
-        if filename.endswith('.svg'):
-            filenames.append(join('testdata', filename))
+
+class PygletApp(object):
+
+    def __init__(self):
+        self.window = Window(visible=False, fullscreen=False)
+        self.window.on_resize = self.on_resize
+        self.window.on_draw = self.on_draw
+        self.window.on_key_press = self.on_key_press
+
+        self.files = SvgFiles()
+
+        glClearColor(0.4, 0.6, 0.0, 0.0)
+        glMatrixMode(GL_MODELVIEW)
+        glLoadIdentity()
+        gluLookAt(
+            0.0, 0.0, 1.0,
+            0.0, 0.0, -1.0,
+            0.0, 1.0, 0.0)
 
 
-def on_resize(width, height):
-    # scale is distance from screen centre to top or bottom, in world coords
-    scale = 200 
-    glMatrixMode(GL_PROJECTION)
-    glLoadIdentity()
-    aspect = width / height
-    gluOrtho2D(
-        -scale * aspect,
-        +scale * aspect,
-        -scale,
-        +scale)
-
-def on_draw():
-    glClear(GL_COLOR_BUFFER_BIT)
-    for drawable in drawables:
-        drawable.draw()
-    return
+    def on_draw(self):
+        glClear(GL_COLOR_BUFFER_BIT)
+        self.files.current.draw()
 
 
-def on_key_press(symbol, modifiers):
-    if symbol == key.ESCAPE:
-        window.close()
-    parse_next_file()
+    def on_resize(self, width, height):
+        # scale is distance from screen centre to top or bottom, in world coords
+        scale = 200 
+        glMatrixMode(GL_PROJECTION)
+        glLoadIdentity()
+        aspect = width / height
+        gluOrtho2D(
+            -scale * aspect,
+            +scale * aspect,
+            -scale,
+            +scale)
 
 
-def init_window():
-    global window
-    window = Window(visible=False, fullscreen=False)
-    glClearColor(0.4, 0.6, 0.0, 0.0)
-    glMatrixMode(GL_MODELVIEW)
-    glLoadIdentity()
-    gluLookAt(
-        0.0, 0.0, 1.0,
-        0.0, 0.0, -1.0,
-        0.0, 1.0, 0.0)
-    window.on_resize = on_resize
-    window.on_draw = on_draw
-    window.on_key_press = on_key_press
-    window.set_visible()
+    def on_key_press(self, symbol, modifiers):
+        if symbol == key.ESCAPE:
+            self.window.close()
+            return
+        self.files.next()
 
 
-def parse_next_file():
-    global current
-    current = (current + 1) % len(filenames)
-    print filenames[current]
-    drawables[0] = svg2batch(filenames[current])
+    def run(self):
+        self.window.set_visible()
+        app.run()
+
 
 
 def main():
-    get_filenames()
-    parse_next_file()
-    init_window()
+    app = PygletApp()
     app.run()
 
 
