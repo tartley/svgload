@@ -49,12 +49,15 @@ class PygletApp(object):
         self.files = SvgFiles()
 
         glClearColor(0.4, 0.6, 0.0, 0.0)
+
         glMatrixMode(GL_MODELVIEW)
         glLoadIdentity()
+        # todo: reset these 100s to 0, and move the loaded svg to be centered
+        # about its anchor point
         gluLookAt(
-            0.0, 0.0, 1.0,
-            0.0, 0.0, -1.0,
-            0.0, 1.0, 0.0)
+            100.0, -100.0, 1.0,  # eye
+            100.0, -100.0, -1.0, # lookAt
+            0.0, 1.0, 0.0)  # up
 
 
     def on_draw(self):
@@ -64,7 +67,7 @@ class PygletApp(object):
 
     def on_resize(self, width, height):
         # scale is distance from screen centre to top or bottom, in world coords
-        scale = 200 
+        scale = 100
         glMatrixMode(GL_PROJECTION)
         glLoadIdentity()
         aspect = width / height
