@@ -1,5 +1,6 @@
 
 from pyglet.gl import GL_TRIANGLES
+from tesselate import tesselate
 
 
 class ParseError(Exception):
@@ -25,13 +26,17 @@ class Path(object):
         path_data = path_tag.attributes['d'].value
         self.loops = self.parse_path(path_data)
 
+        self.triangles = None
+
 
     def parse_color(self, color):
         '''
-        color : string, eg: '#rrggbb'
+        color : string, eg: '#rrggbb' or 'none'
         (where rr, gg, bb are hex digits from 00 to ff)
         returns a triple of unsigned bytes, eg: (0, 128, 255)
         '''
+        if color == 'none':
+            return None
         return (
             int(color[1:3], 16),
             int(color[3:5], 16),
@@ -40,15 +45,17 @@ class Path(object):
 
     def parse_style(self, style):
         '''
-        style : string
-        returns color as a triple of unsigned bytes: (r, g, b)
+        style : string, eg:
+            fill:#ff2a2a;fill-rule:evenodd;stroke:none;stroke-width:1px;
+            stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1
+        returns color as a triple of unsigned bytes: (r, g, b), or None
         '''
         style_elements = style.split(';')
         while style_elements:
             element = style_elements.pop()
             if element.startswith('fill:'):
                 return self.parse_color(element[5:])
-        return (0, 0, 0)
+        return None
 
 
     def parse_coord(self, items):
@@ -114,11 +121,15 @@ class Path(object):
         return loops
 
 
+    def tessellate(self):
+        if self.color:
+            self.triangles = tesselate(self.loops)
+
+
     def _serialise_verts(self):
-        for loop in self.loops:
-            for vert in loop:
-                yield vert[0]
-                yield vert[1]
+        for vert in self.triangles:
+            yield vert[0]
+            yield vert[1]
 
 
     def add_to_batch(self, batch):
@@ -127,16 +138,17 @@ class Path(object):
         GL_TRIANGLES. Note that Batch will aggregate all such additions into
         a single large primitive.
         '''
-        num_verts = sum(len(loop) for loop in self.loops)
-        serial_verts = list(self._serialise_verts())
-        colors = self.color * num_verts
-        indices = range(num_verts)
-        batch.add_indexed(
-            num_verts,
-            GL_TRIANGLES,
-            None,
-            indices,
-            ('v2f/static', serial_verts),
-            ('c3B/static', colors),
-        )
+        if self.triangles:
+            num_verts = len(self.triangles)
+            serial_verts = list(self._serialise_verts())
+            colors = self.color * num_verts
+            indices = range(num_verts)
+            batch.add_indexed(
+                num_verts,
+                GL_TRIANGLES,
+                None,
+                indices,
+                ('v2f/static', serial_verts),
+                ('c3B/static', colors),
+            )
 

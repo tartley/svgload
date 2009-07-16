@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 from __future__ import division
 
 from os import listdir
@@ -38,7 +40,6 @@ class SvgFiles(object):
             uniform(0.0, 1.0),
             1.0)
         self.number = (self.number + 1) % len(self.filenames)
-        print
         print self.filenames[self.number]
         self.current = svg2batch(self.filenames[self.number])
 
@@ -71,7 +72,7 @@ class PygletApp(object):
 
     def on_resize(self, width, height):
         # scale is distance from screen centre to top or bottom, in world coords
-        scale = 100
+        scale = 110
         glMatrixMode(GL_PROJECTION)
         glLoadIdentity()
         aspect = width / height

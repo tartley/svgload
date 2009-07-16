@@ -48,13 +48,7 @@ callback_types = {
 
 
 def tesselate(loops):
-    print 'in', '%d loops' % (len(loops),), \
-        ['%d verts' % (len(loop),) for loop in loops]
-    t = Tesselate()
-    tesselated = t.tesselate(loops)
-    loops[:] = [tesselated]
-    print 'out', len(loops), \
-        ['%d tris' % (len(loop) / 3,) for loop in loops]
+    return Tesselate().tesselate(loops)
 
 
 def set_tess_callback(which):
@@ -68,7 +62,6 @@ def set_tess_callback(which):
 class Tesselate(object):
 
     def fan_to_triangles(self):
-        print '  fan ', len(self.curr_shape) - 2, 'tris'
         c = self.curr_shape.pop(0)
         p1 = self.curr_shape.pop(0)
         while self.curr_shape:
@@ -77,7 +70,6 @@ class Tesselate(object):
             p1 = p2
 
     def strip_to_triangles(self):
-        print '  strip', len(self.curr_shape) - 2, 'tris'
         p1 = self.curr_shape.pop(0)
         p2 = self.curr_shape.pop(0)
         while self.curr_shape:
@@ -107,7 +99,6 @@ class Tesselate(object):
             elif self.tess_style == GL_TRIANGLE_STRIP:
                 self.strip_to_triangles()
             elif self.tess_style == GL_TRIANGLES:
-                print '  triangles', len(self.curr_shape) / 3
                 self.tlist.extend(self.curr_shape)
             else:
                 self.warn("Unknown tesselation style: %d" % (self.tess_style,))

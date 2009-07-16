@@ -1,16 +1,18 @@
 
 TODO
 
-* SvgBatch should not add unfilled paths to the batch
-* SvgBatch should expose individual paths by id
-* Svg exposes aggregate attributes like width, height, radius.
+* SvgLoader should expose aggregate attributes like width, height, radius.
 * demo.py should use the exposed attributes of Svg to zoom and pan.
-+ calculate a centroid anchor point, offset all paths so anchor is at origin
-+ override calculated centroid with an anchor point in the svg
++ calculate an anchor point, offset all paths so anchor is at origin
++ override calculated anchor with a point from the svg
+* SvgLoader should expose individual paths by id
+* we can merge some of the vertices that come out of tessellation.
+  (try a convex quad to debug this)
 + color gradients
 + opacity
 + expose named paths, for eg. collision detection
 + don't tesselate collision detection paths - because they aren't filled?
+* anchor point is currently just the center. Consider using a centroid?
 * add to PyPI
 * use in SoleScion
 
@@ -29,4 +31,6 @@ DONE
 * we must preserve the ordering of paths so that they get added to the batch
   (and drawn) in the right order.
 * new class, SvgBatch, which maintains an list of paths
+* unfilled paths should not be tessellated
+* untessellated paths should not be added to the batch
 
