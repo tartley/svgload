@@ -1,7 +1,8 @@
 
 from pyglet.gl import GL_TRIANGLES
-from tesselate import tesselate
 
+from bounds import Bounds
+from tesselate import tesselate
 
 class ParseError(Exception):
     pass
@@ -19,6 +20,7 @@ class Path(object):
     '''
     def __init__(self, path_tag):
         self.id = path_tag.attributes['id'].value
+        self.bounds = Bounds()
 
         style_data = path_tag.attributes['style'].value
         self.color = self.parse_style(style_data)
@@ -73,17 +75,19 @@ class Path(object):
         
         # coords are comma separated
         if len(comma_separated) == 2:
-            x, y = map(float, comma_separated)
+            x = float(comma_separated[0])
+            y = -float(comma_separated[1])
 
         # coords are space separated
         elif len(comma_separated) == 1:
             x = float(first)
-            y = float(items.pop())
+            y = -float(items.pop())
 
         else:
             raise ValueError('parse_coord fail: %s' % first)
 
-        return (x, -y)
+        self.bounds.add_point(x, y)
+        return (x, y)
 
 
     def parse_path(self, path):
@@ -102,6 +106,7 @@ class Path(object):
             z - close current path - join to start point
         Note that the final point is eliminated if it is redundant.
         '''
+        print 'parse_path'
         loops = []
         current_path = None
         items = list(reversed(path.split()))
@@ -119,6 +124,12 @@ class Path(object):
             else:
                 raise ParseError('unsupported svg path item: %s' % (item,))
         return loops
+
+
+    def offset(self, x, y):
+        for loop in self.loops:
+            for idx, vert in enumerate(loop):
+                loop[idx] = (vert[0] + x, vert[1] + y)
 
 
     def tessellate(self):

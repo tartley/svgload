@@ -57,11 +57,9 @@ class PygletApp(object):
 
         glMatrixMode(GL_MODELVIEW)
         glLoadIdentity()
-        # todo: reset these 100s to 0, and move the loaded svg to be centered
-        # about its anchor point
         gluLookAt(
-            100.0, -100.0, 1.0,  # eye
-            100.0, -100.0, -1.0, # lookAt
+            0.0, -0.0, 1.0,  # eye
+            0.0, -0.0, -1.0, # lookAt
             0.0, 1.0, 0.0)  # up
 
 
