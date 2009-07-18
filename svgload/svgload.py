@@ -39,12 +39,9 @@ class SvgLoader(object):
         doc = xml.dom.minidom.parse(self.filename)       
         path_tags = doc.getElementsByTagName('path')
         for path_tag in path_tags:
-            print 'path_tag'
             path = Path(path_tag)
-            print 'path', path.bounds
             self.paths.append(path)
             self.bounds.add_bounds(path.bounds)
-            print self.bounds
 
 
     def center(self):
@@ -54,6 +51,7 @@ class SvgLoader(object):
         center = self.bounds.get_center()
         for path in self.paths:
             path.offset(-center[0], -center[1])
+        self.bounds.offset(-center[0], -center[1])
 
 
     def create_batch(self):

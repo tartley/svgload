@@ -2,46 +2,52 @@
 class Bounds(object):
 
     def __init__(self):
-        self.minx = None
-        self.maxx = None
-        self.miny = None
-        self.maxy = None
+        self.xmin = None
+        self.xmax = None
+        self.ymin = None
+        self.ymax = None
 
     def add_point(self, x, y):
-        if self.minx is None:
-            self.minx = self.maxx = x
-            self.miny = self.maxy = y
+        if self.xmin is None:
+            self.xmin = self.xmax = x
+            self.ymin = self.ymax = y
         else:
-            self.minx = min(self.minx, x)
-            self.maxx = max(self.maxx, x)
-            self.miny = min(self.miny, y)
-            self.maxy = max(self.maxy, y)
+            self.xmin = min(self.xmin, x)
+            self.xmax = max(self.xmax, x)
+            self.ymin = min(self.ymin, y)
+            self.ymax = max(self.ymax, y)
 
     def add_bounds(self, other):
-        print 'add_bounds', self, other
-        if other.minx is None:
+        if other.xmin is None:
             return
-        elif self.minx is None:
-            self.minx = other.minx
-            self.maxx = other.maxx
-            self.miny = other.miny
-            self.maxy = other.maxy
+        elif self.xmin is None:
+            self.xmin = other.xmin
+            self.xmax = other.xmax
+            self.ymin = other.ymin
+            self.ymax = other.ymax
         else:
-            self.minx = min(self.minx, other.minx)
-            self.maxx = min(self.maxx, other.maxx)
-            self.miny = min(self.miny, other.miny)
-            self.maxy = min(self.maxy, other.maxy)
+            self.xmin = min(self.xmin, other.xmin)
+            self.xmax = max(self.xmax, other.xmax)
+            self.ymin = min(self.ymin, other.ymin)
+            self.ymax = max(self.ymax, other.ymax)
 
     def get_center(self):
         return (
-            (self.minx + self.maxx) / 2,
-            (self.miny + self.maxy) / 2,
+            (self.xmin + self.xmax) / 2,
+            (self.ymin + self.ymax) / 2,
         )
 
+    def offset(self, x, y):
+        if self.xmin is not None:
+            self.xmin += x
+            self.xmax += x
+            self.ymin += y
+            self.ymax += y
+
     def __str__(self):
-        if self.minx is None:
+        if self.xmin is None:
             return '<Bounds null>'
         return '<Bounds (%.2f, %.2f) (%.2f, %.2f)>' % (
-            self.minx, self.maxx,
-            self.miny, self.maxy)
+            self.xmin, self.xmax,
+            self.ymin, self.ymax)
         

@@ -1,10 +1,9 @@
 
 TODO
 
++ override calculated anchor with a point from the svg
 * SvgLoader should expose aggregate attributes like width, height, radius.
 * demo.py should use the exposed attributes of Svg to zoom and pan.
-+ calculate an anchor point, offset all paths so anchor is at origin
-+ override calculated anchor with a point from the svg
 * SvgLoader should expose individual paths by id
 * we can merge some of the vertices that come out of tessellation.
   (try a convex quad to debug this)
@@ -33,4 +32,5 @@ DONE
 * new class, SvgBatch, which maintains an list of paths
 * unfilled paths should not be tessellated
 * untessellated paths should not be added to the batch
++ calculate an anchor point, offset all paths so anchor is at origin
 

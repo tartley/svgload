@@ -106,7 +106,6 @@ class Path(object):
             z - close current path - join to start point
         Note that the final point is eliminated if it is redundant.
         '''
-        print 'parse_path'
         loops = []
         current_path = None
         items = list(reversed(path.split()))
@@ -130,6 +129,7 @@ class Path(object):
         for loop in self.loops:
             for idx, vert in enumerate(loop):
                 loop[idx] = (vert[0] + x, vert[1] + y)
+        self.bounds.offset(x, y)
 
 
     def tessellate(self):
