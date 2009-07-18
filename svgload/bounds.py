@@ -7,6 +7,16 @@ class Bounds(object):
         self.ymin = None
         self.ymax = None
 
+    @property
+    def width(self):
+        if self.xmin is not None:
+            return self.xmax - self.xmin
+
+    @property
+    def height(self):
+        if self.xmin is not None:
+            return self.ymax - self.ymin
+
     def add_point(self, x, y):
         if self.xmin is None:
             self.xmin = self.xmax = x

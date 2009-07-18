@@ -31,6 +31,13 @@ class SvgLoader(object):
         self.paths = []
         self.bounds = Bounds()
 
+    @property
+    def width(self):
+        return self.bounds.width
+
+    @property
+    def height(self):
+        return self.bounds.height
 
     def parse_svg(self):
         '''
