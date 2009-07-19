@@ -1,19 +1,32 @@
 
-TODO
+CRITICAL
 
-+ override calculated anchor with a point from the svg
-* SvgLoader should expose aggregate attributes like width, height, radius.
-* demo.py should use the exposed attributes of Svg to zoom and pan.
-* SvgLoader should expose individual paths by id
-* we can merge some of the vertices that come out of tessellation.
-  (try a convex quad to debug this)
-+ color gradients
-+ opacity
-+ expose named paths, for eg. collision detection
-+ don't tesselate collision detection paths - because they aren't filled?
-* anchor point is currently just the center. Consider using a centroid?
++ expose named paths by id, for eg. collision detection
 * add to PyPI
 * use in SoleScion
+
+REFACTORING
+
+* Batch could be a property of svgloader
+* consider the object model. Separate svgloader from the data that is loaded?
+
+PERFORMANCE
+
+* consider forgetting paths that are triangulated, and forgetting
+  triangles that are used in a batch.
+* we can merge some of the vertices that come out of tessellation.
+  (try a convex quad to debug this)
+
+OPTIONAL
+
++ color gradients
++ opacity
++ override calculated anchor with a point from the svg
+* arcs
+* arcs as collision boundaries
+* beziers
+* consider making automatic anchor a centroid rather than just the center
+
 
 DONE
 
@@ -33,4 +46,5 @@ DONE
 * unfilled paths should not be tessellated
 * untessellated paths should not be added to the batch
 + calculate an anchor point, offset all paths so anchor is at origin
+* SvgLoader should expose aggregate attributes like width, height.
 
