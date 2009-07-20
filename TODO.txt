@@ -7,8 +7,7 @@ CRITICAL
 
 REFACTORING
 
-* Batch could be a property of svgloader
-* consider the object model. Separate svgloader from the data that is loaded?
+* Separate svgloader from the data that is loaded?
 
 PERFORMANCE
 
@@ -47,4 +46,5 @@ DONE
 * untessellated paths should not be added to the batch
 + calculate an anchor point, offset all paths so anchor is at origin
 * SvgLoader should expose aggregate attributes like width, height.
+* Batch could be a property of svgloader
 

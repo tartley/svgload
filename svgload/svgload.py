@@ -30,6 +30,7 @@ class SvgLoader(object):
         self.filename = filename
         self.paths = []
         self.bounds = Bounds()
+        self.batch = None
 
     @property
     def width(self):
@@ -38,6 +39,7 @@ class SvgLoader(object):
     @property
     def height(self):
         return self.bounds.height
+
 
     def parse_svg(self):
         '''
@@ -53,7 +55,7 @@ class SvgLoader(object):
 
     def center(self):
         '''
-        offset all verts in all paths to put center at the origin
+        Offset all verts put center of svg at the origin
         '''
         center = self.bounds.get_center()
         for path in self.paths:
@@ -63,13 +65,14 @@ class SvgLoader(object):
 
     def create_batch(self):
         '''
-        returns a new pyglet Batch object populated with indexed GL_TRIANGLES
+        Returns a new pyglet Batch object populated with indexed GL_TRIANGLES
         '''
-        batch = Batch()
+        if self.batch is None:
+            self.batch = Batch()
         self.parse_svg()
         self.center()
         for path in self.paths:
             path.tessellate()
-            path.add_to_batch(batch)
-        return batch    
+            path.add_to_batch(self.batch)
+        return self.batch    
 
