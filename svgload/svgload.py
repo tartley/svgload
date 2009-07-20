@@ -12,16 +12,16 @@ def svg2batch(filename):
     filename: string, absolute or relative filename of an SVG file
     return a pyglet Batch made from all the paths in the file
     '''
-    loader = SvgLoader(filename)
+    loader = SvgBatch(filename)
     return loader.create_batch()
 
 
 
-class SvgLoader(object):
+class SvgBatch(object):
     '''
     Maintains an ordered list of paths, each one corresponding to a path tag
-    from an SVG file. Adds itself to a single pylget Batch, for rendering as
-    a single OpenGL primitive.
+    from an SVG file. Creates a pylget Batch containing all these paths, for
+    rendering as a single OpenGL GL_TRIANGLES indexed vert primitive.
     '''
     def __init__(self, filename=None):
         '''
@@ -29,6 +29,7 @@ class SvgLoader(object):
         '''
         self.filename = filename
         self.paths = []
+        self.path_by_id = {}
         self.bounds = Bounds()
         self.batch = None
 
@@ -41,6 +42,15 @@ class SvgLoader(object):
         return self.bounds.height
 
 
+    def __getattr__(self, name):
+        if hasattr(self.path_by_id, name):
+            return getattr(self.path_by_id, name)
+        raise AttributeError(name)
+
+    def __getitem__(self, index):
+        return self.path_by_id[index]
+
+
     def parse_svg(self):
         '''
         Populates self.paths from the <path> tags in the svg file.
@@ -50,6 +60,7 @@ class SvgLoader(object):
         for path_tag in path_tags:
             path = Path(path_tag)
             self.paths.append(path)
+            self.path_by_id[path.id] = path
             self.bounds.add_bounds(path.bounds)
 
 
@@ -69,10 +80,10 @@ class SvgLoader(object):
         '''
         if self.batch is None:
             self.batch = Batch()
-        self.parse_svg()
-        self.center()
-        for path in self.paths:
-            path.tessellate()
-            path.add_to_batch(self.batch)
+            self.parse_svg()
+            self.center()
+            for path in self.paths:
+                path.tessellate()
+                path.add_to_batch(self.batch)
         return self.batch    
 

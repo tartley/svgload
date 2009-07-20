@@ -15,7 +15,7 @@ from pyglet.gl import (
 )
 from pyglet.gl.glu import gluOrtho2D
 
-from svgload.svgload import svg2batch
+from svgload.svgload import SvgBatch
 
 
 class SvgFiles(object):
@@ -34,14 +34,20 @@ class SvgFiles(object):
         ]
 
     def next(self):
+        self.number = (self.number + 1) % len(self.filenames)
+        filename = self.filenames[self.number]
+        print filename
+        self.current = SvgBatch(filename)
+        self.current.create_batch()
+
         glClearColor(
             uniform(0.0, 1.0),
             uniform(0.0, 1.0),
             uniform(0.0, 1.0),
             1.0)
-        self.number = (self.number + 1) % len(self.filenames)
-        print self.filenames[self.number]
-        self.current = svg2batch(self.filenames[self.number])
+
+    def draw(self):
+        self.current.create_batch().draw()
 
 
 
@@ -65,7 +71,7 @@ class PygletApp(object):
 
     def on_draw(self):
         glClear(GL_COLOR_BUFFER_BIT)
-        self.files.current.draw()
+        self.files.draw()
 
 
     def on_resize(self, width, height):

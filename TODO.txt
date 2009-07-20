@@ -9,13 +9,6 @@ REFACTORING
 
 * Separate svgloader from the data that is loaded?
 
-PERFORMANCE
-
-* consider forgetting paths that are triangulated, and forgetting
-  triangles that are used in a batch.
-* we can merge some of the vertices that come out of tessellation.
-  (try a convex quad to debug this)
-
 OPTIONAL
 
 + color gradients
@@ -23,8 +16,15 @@ OPTIONAL
 + override calculated anchor with a point from the svg
 * arcs
 * arcs as collision boundaries
-* beziers
+* beziers & other scg primitives
 * consider making automatic anchor a centroid rather than just the center
+
+PERFORMANCE
+
+* consider forgetting paths that are triangulated, and forgetting
+  triangles that are used in a batch.
+* we can merge some of the vertices that come out of tessellation.
+  (try a convex quad to debug this)
 
 
 DONE
