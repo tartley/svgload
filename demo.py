@@ -15,7 +15,7 @@ from pyglet.gl import (
 )
 from pyglet.gl.glu import gluOrtho2D
 
-from svgload.svgload import SvgBatch
+from svgbatch.svgbatch import SvgBatch
 
 
 class SvgFiles(object):

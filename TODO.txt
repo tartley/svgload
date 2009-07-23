@@ -1,13 +1,14 @@
 
 CRITICAL
 
-+ expose named paths by id, for eg. collision detection
 * add to PyPI
 * use in SoleScion
 
 REFACTORING
 
 * Separate svgloader from the data that is loaded?
+* Separate svgloader from resulting use in a batch - other people might use
+  svgloading for other purposes (eg. display list a la squirtle)
 
 OPTIONAL
 
@@ -47,4 +48,5 @@ DONE
 + calculate an anchor point, offset all paths so anchor is at origin
 * SvgLoader should expose aggregate attributes like width, height.
 * Batch could be a property of svgloader
++ expose named paths by id, for eg. collision detection
 
