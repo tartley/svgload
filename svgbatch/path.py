@@ -13,7 +13,7 @@ class Path(object):
     id : string, copied from the svg tag's id attribute
     color : triple of unsigned bytes, (r, g, b)
     loops : a list of loops.
-        A loop is a list of vertices. A coord is a pair of floats or ints.
+        A loop is a list of vertices. A vertex is a pair of floats or ints.
         See 'parse_path'
     A Path corresponds to a single SVG path tag. It may contain many
     independant loops which may represent disjoint polygons or holes.
