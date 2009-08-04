@@ -5,6 +5,19 @@
 A Python package to load SVG vector graphic files, and convert
 them into [http://www.pyglet.org pyglet] Batch objects, for OpenGL rendering.
 
+The polygons from the SVG file are tesselated using GLU functions, and used to
+create a pyglet Batch object of indexed vertex arrays. The Batch will aggregate
+all paths from an SVG file into a single OpenGL GL_TRIANGLES primitive for
+rendering. Each path is also exposed in its untessellated form, indexed by 'id'
+attribute, so the application could use them for collision detection, for
+example.
+
+Currently only a subset of SVG is handled - closed polygons, filled with solid
+color. These may comprise multiple loops (disjoint areas or holes), but must be
+made up from straight line edges. Arc polygon edges, gradient fills and other
+SVG entities (such as rectangles or text) are not currently handled.
+
+Requires [http://www.pyglet.org pyglet].
 
 =Status=
 
@@ -30,9 +43,9 @@ islands.  The resulting batch is populated with one primitive for each filled
 path tag in the SVG. The primitives are all indexed vertices of GL_TRIANGLES,
 which I understand the batch will aggregate into a single large primitive.
 
-The geometry of the loaded paths can also be accessed for things other than
-rendering (eg. if your application wants to access the vertices of the loaded
-shape to create a collision boundary):
+The untessellated geometry of the loaded paths can also be accessed for things
+other than rendering (eg. if your application wants to access the vertices of
+the loaded shape to create a collision boundary):
 
 {{{
   path = svg.path_by_id['pathid']
@@ -51,28 +64,13 @@ returned Path object has the following attributes:
 
 =Known Issues=
 
-  * I haven't yet uploaded to PyPI.
-  * I haven't tried to make it choke on some large real-world SVG files.
+  * It generally chokes on real-world SVG files other than the small ones I'm saving from Inkscape, due to unhandled SVG entities such as rectangles or text.
   * I've only tested on Windows.
 
 
 =Plans=
 
-It would be nice to handle arcs as well as straight lines. Beziers I can live
-without.
-
-It would be nice to handle linear gradient fills. Radial gradient fills I can
-live without.
-
-I don't plan to render line paths. (I'm using them to represent things like
-collision boundaries)
-
-It would be nice to represent animation somehow. I'm not sure whether animation
-frames should be crammed into a single svg file, maybe on different layers or
-somesuch.
-
-There are redundancies in the vertex arrays that are produced from
-tessellation. It would be nice to eliminate these.
+See [http://code.google.com/p/svgload/source/browse/trunk/TODO.txt TODO.txt]
 
 
 =Acknowledgements=

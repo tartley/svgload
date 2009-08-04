@@ -6,23 +6,33 @@ CRITICAL
 
 OPTIONAL
 
-+ color gradients
-+ opacity
-+ override calculated anchor with a point from the svg
++ silently ignore svg it can't handle, rather than barfing
++ linear color gradients
 * render elliptical arcs by polygonising them
 * expose elliptical arcs as circular collision boundaries
-* render bezier arcs by polygonising them
++ override calculated anchor with a point from the svg
++ opacity
 * consider making automatic anchor a centroid rather than just the center
 * consider animation - store multiple frames in a single svg file?
 
 PERFORMANCE
 
+* we can merge some of the vertices that come out of tessellation.
+  (try a concave quad to debug this)
 * consider reclaiming memory by forgetting paths that are triangulated, and
   forgetting triangles that are used in a batch. (or maybe not storing them in
   the first place - make the operations more functional?)
-* we can merge some of the vertices that come out of tessellation.
-  (try a concave quad to debug this)
 
+NOT PLANNED
+
+* bezier arcs probably not going to happen, since I have no currently known
+  use for them in my game project.
+* radial gradients are probably not going to happen, since they end up
+  looking kinda wonky in OpenGL unless you add a bunch of extra vertices
+  to smooth them out.
+* Line paths and other svg entities, like rectangles, are probably not going
+  to happen. I don't see the utility - I might as well just draw everything
+  as polygons.
 
 DONE
 
