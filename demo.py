@@ -8,6 +8,7 @@ import sys
 from random import uniform
 
 from pyglet import app, clock
+from pyglet.event import EVENT_HANDLED
 from pyglet.window import key, Window
 from pyglet.gl import (
     glClear, glClearColor, glLoadIdentity, glMatrixMode, gluLookAt,
@@ -72,6 +73,7 @@ class PygletApp(object):
     def on_draw(self):
         glClear(GL_COLOR_BUFFER_BIT)
         self.files.draw()
+        return EVENT_HANDLED
 
 
     def on_resize(self, width, height):
@@ -85,6 +87,7 @@ class PygletApp(object):
             +scale * aspect,
             -scale,
             +scale)
+        return EVENT_HANDLED
 
 
     def on_key_press(self, symbol, modifiers):

@@ -2,6 +2,9 @@
 class Bounds(object):
 
     def __init__(self):
+        self.reset()
+
+    def reset(self):
         self.xmin = None
         self.xmax = None
         self.ymin = None
@@ -42,10 +45,11 @@ class Bounds(object):
             self.ymax = max(self.ymax, other.ymax)
 
     def get_center(self):
-        return (
-            (self.xmin + self.xmax) / 2,
-            (self.ymin + self.ymax) / 2,
-        )
+        if self.xmin:
+            return (
+                (self.xmin + self.xmax) / 2,
+                (self.ymin + self.ymax) / 2,
+            )
 
     def offset(self, x, y):
         if self.xmin is not None:

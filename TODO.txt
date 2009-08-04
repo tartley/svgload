@@ -6,8 +6,8 @@ CRITICAL
 
 REFACTORING
 
-* Separate svgloader from the data that is loaded?
-* Separate svgloader from resulting use in a batch - other people might use
+* Separate svg loader from the data that is loaded?
+* Separate svg loader from resulting use in a batch - other people might use
   svgloading for other purposes (eg. display list a la squirtle)
 
 OPTIONAL
@@ -15,17 +15,18 @@ OPTIONAL
 + color gradients
 + opacity
 + override calculated anchor with a point from the svg
-* arcs
-* arcs as collision boundaries
-* beziers & other scg primitives
+* render arcs by polygonising them
+* expose arcs as circular collision boundaries
+* beziers & other svg primitives
 * consider making automatic anchor a centroid rather than just the center
 
 PERFORMANCE
 
 * consider forgetting paths that are triangulated, and forgetting
-  triangles that are used in a batch.
+  triangles that are used in a batch. (or maybe not storing them in the first
+  place - make the operation more functional)
 * we can merge some of the vertices that come out of tessellation.
-  (try a convex quad to debug this)
+  (try a concave quad to debug this)
 
 
 DONE

@@ -8,27 +8,156 @@ class ParseError(Exception):
     pass
 
 
+class PathData(object):
+
+    def __init__(self, data):
+        self.data = data
+        self.pos = 0
+        self.loops = []
+        self.bounds = Bounds()
+
+
+    def get_chars(self, chars):
+        start = self.pos
+        while self.pos < len(self.data) and self.data[self.pos] in chars:
+            self.pos += 1
+        return self.data[start:self.pos]
+
+
+    def get_number(self):
+        number = self.get_chars('0123456789.-')
+        if '.' in number:
+            return float(number)
+        else:
+            return int(number)
+
+
+    def to_tuples(self):
+        parsed = []
+        command = []
+
+        self.pos = 0
+        while self.pos < len(self.data):
+            indicator = self.data[self.pos]
+            if indicator == ' ':
+                self.pos += 1
+            elif indicator == ',':
+                if len(command) >= 2:
+                    self.pos += 1
+                else:
+                    msg = 'invalid comma at %d in %r' % (self.pos, self.data)
+                    raise ParseError(msg)
+            elif indicator in '0123456789.-':
+                if command:
+                    command.append(self.get_number())
+                else:
+                    msg = 'missing command at %d in %r' % (self.pos, self.data)
+                    raise ParseError(msg)
+            else:
+                if command:
+                    parsed.append(tuple(command))
+                command = [indicator]
+                self.pos += 1
+
+        if command:
+            parsed.append(tuple(command))
+        return parsed
+
+
+    def get_point(self, command):
+        x = command[1]
+        y = -command[2]
+        self.bounds.add_point(x, y)
+        return x, y
+
+
+    def to_loops(self, commands):
+        '''
+        commands : list of tuples, as output from to_tuples() method, eg:
+            [('M', 1, 2), ('L', 3, 4), ('L', 5, 6), ('z')]
+        Interprets the command characters at the start of each tuple to return
+        a list of loops, where each loop is a closed list of verts, and each
+        vert is a pair of ints or floats, eg:
+            [[1, 2, 3, 4, 5, 6]]
+        Note that the final point of each loop is eliminated if it is equal to
+        the first.
+        SVG defines commands:
+            M x,y: move, start a new loop
+            L x,y: line, draw boundary
+            H x: move horizontal
+            V y: move vertical
+            Z: close current loop - join to start point
+        Lower-case command letters (eg 'm') indicate a relative offset.
+        See http://www.w3.org/TR/SVG11/paths.html
+        '''
+        loops = []
+        current_path = None
+
+        for command in commands:
+            action = command[0]
+            if action == 'M':
+                self.bounds.reset()
+                x, y = self.get_point(command)
+                current_path = [(x, y)]
+            elif action == 'L':
+                x, y = self.get_point(command)
+                current_path.append((x, y))
+            elif action in 'zZ':
+                if current_path[0] == current_path[-1]:
+                    current_path = current_path[:-1]
+                if len(current_path) < 3:
+                    raise ParseError('loop needs 3 or more verts')
+                loops.append(current_path)
+                current_path = None
+            else:
+                msg = 'unsupported svg path command: %s' % (action,)
+                raise ParseError(msg)
+        return loops
+
+
+    def parse(self):
+        '''
+        parse(data), where 'data' is a string. The format of 'data' matches the
+        'd' attribute of an svg path tag, eg:
+            'M 46,74 L 35,12 l 53,13 z'
+        returns the same data collected in a list of tuples, eg:
+            [ ('M', 46, 74), ('L', 35, 12), ('l', 53, 13), ('z') ],
+        The input data may have floats instead of ints, this will be reflected
+        in the output. The input may have its whitespace stripped out, or its
+        commas replaced by whitespace.
+        '''
+        parsed = self.to_tuples()
+        return self.to_loops(parsed)
+
+
 class Path(object):
+
+    next_id = 1
+
     '''
     id : string, copied from the svg tag's id attribute
     color : triple of unsigned bytes, (r, g, b)
     loops : a list of loops.
         A loop is a list of vertices. A vertex is a pair of floats or ints.
-        See 'parse_path'
     A Path corresponds to a single SVG path tag. It may contain many
     independant loops which may represent disjoint polygons or holes.
     '''
-    def __init__(self, path_tag):
-        self.id = path_tag.attributes['id'].value
+    def __init__(self, tag=None):
+        self.loops = []
+        self.color = (0, 0, 0)
         self.bounds = Bounds()
-
-        style_data = path_tag.attributes['style'].value
-        self.color = self.parse_style(style_data)
-
-        path_data = path_tag.attributes['d'].value
-        self.loops = self.parse_path(path_data)
-
         self.triangles = None
+
+        if tag:
+            self.parse(tag)
+
+
+    def get_id(self, attributes):
+        if 'id' in attributes.keys():
+            return attributes['id'].value
+        else:
+            self.next_id += 1
+            return self.next_id - 1
 
 
     def parse_color(self, color):
@@ -60,69 +189,16 @@ class Path(object):
         return None
 
 
-    def parse_coord(self, items):
-        '''
-        items: list of strings, which may end with either of:
-            [..., 'x,y']
-            [..., 'y', 'x']
-            where x and y look like either ints or floats.
-        returns tuple (x, y) as floats.
-        Pops consumed values off the list.
-        Returned Y co-ord is inverted - SVG Y-axis points down, we use up.
-        '''
-        first = items.pop()
-        comma_separated = first.split(',')
+    def parse(self, tag):
+        self.id = self.get_id(tag.attributes)
+        if 'style' in tag.attributes.keys():
+            style_data = tag.attributes['style'].value
+            self.color = self.parse_style(style_data)
         
-        # coords are comma separated
-        if len(comma_separated) == 2:
-            x = float(comma_separated[0])
-            y = -float(comma_separated[1])
-
-        # coords are space separated
-        elif len(comma_separated) == 1:
-            x = float(first)
-            y = -float(items.pop())
-
-        else:
-            raise ValueError('parse_coord fail: %s' % first)
-
-        self.bounds.add_point(x, y)
-        return (x, y)
-
-
-    def parse_path(self, path):
-        '''
-        path: string, eg:
-            M 460.6,744.0 L 35.4,120.1 L 531.4,131.8 L 460.6,744.0 z etc...
-            (or with space instead of the commas)
-        returns list of loops, one for each M L L L z sequence, eg. [
-            [ 
-                [ (460.6,744.0), (35.4, 1240.1), (531.4, 1381.8) ],
-                etc...
-            ]
-        SVG defines:
-            M - move to start a new path
-            L - line, draw boundary
-            z - close current path - join to start point
-        Note that the final point is eliminated if it is redundant.
-        '''
-        loops = []
-        current_path = None
-        items = list(reversed(path.split()))
-        while items:
-            item = items.pop()
-            if item == 'M':
-                current_path = [self.parse_coord(items)]
-            elif item == 'L':
-                current_path.append(self.parse_coord(items))
-            elif item == 'z':
-                if current_path[0] == current_path[-1]:
-                    current_path = current_path[:-1]
-                loops.append(current_path)
-                current_path = None
-            else:
-                raise ParseError('unsupported svg path item: %s' % (item,))
-        return loops
+        path_data = PathData(tag.attributes['d'].value)
+        self.loops = path_data.parse()
+        self.bounds.add_bounds(path_data.bounds)
+        print self.loops
 
 
     def offset(self, x, y):
