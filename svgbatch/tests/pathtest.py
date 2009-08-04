@@ -1,6 +1,6 @@
 from mock import Mock, RunTests, TestCase
 
-from svgbatch.path import Path, PathData, ParseError
+from svgbatch.path import Path, PathDataParser, ParseError, SvgLoopTracer
 
 
 class PathDataTest(TestCase):
@@ -23,15 +23,15 @@ class PathDataTest(TestCase):
         ]
         expected = [ ('M', 1, 2), ('L', 3.0, 4.0), ('L', 5, 6.0), ('Z',)]
         for input in data:
-            pathData = PathData(input)
-            actual = pathData.to_tuples()
+            pathData = PathDataParser()
+            actual = pathData.to_tuples(input)
             self.assertEquals(actual, expected, 'for %s' % (input,))
 
 
     def assert_to_tuples(self, data):
         for input, expected in data:
-            pathData = PathData(input)
-            actual = pathData.to_tuples()
+            pathData = PathDataParser()
+            actual = pathData.to_tuples(input)
             self.assertEquals(actual, expected, 'for %r' % (input,))
 
             # test types of int/floats too. assertEquals doesn't
@@ -170,41 +170,43 @@ class PathDataTest(TestCase):
             ('M,', "invalid comma at 1 in 'M,'"),
         ]
         for input, message in data:
-            pathData = PathData(input)
+            pathData = PathDataParser()
             self.assertRaisesWithMessage(ParseError, message,
-                pathData.to_tuples)
+                pathData.to_tuples, input)
 
+
+class SvgLoopTracerTest(TestCase):
 
     def test_to_loops_bad_command(self):
-        path = PathData(('X',))
+        tracer = SvgLoopTracer()
         self.assertRaisesWithMessage(
             ParseError,
             'unsupported svg path command: X',
-            path.parse
+            tracer.to_loops, ('X',),
         )
 
 
     def test_parse_incomplete_path(self):
-        path = PathData(None)
+        tracer = SvgLoopTracer()
         self.assertRaisesWithMessage(
             ParseError,
             'loop needs 3 or more verts',
-            path.to_loops, [('M', 1, 2), ('Z')],
+            tracer.to_loops, [('M', 1, 2), ('Z')],
         )
         self.assertRaisesWithMessage(
             ParseError,
             'loop needs 3 or more verts',
-            path.to_loops, [('M', 1, 2), ('L', 3, 4), ('Z')]
+            tracer.to_loops, [('M', 1, 2), ('L', 3, 4), ('Z')]
         )
         self.assertRaisesWithMessage(
             ParseError,
             'loop needs 3 or more verts',
-            path.to_loops, [('M', 1, 2), ('L', 3, 4), ('L', 1, 2), ('Z')],
+            tracer.to_loops, [('M', 1, 2), ('L', 3, 4), ('L', 1, 2), ('Z')],
         )
 
     def test_to_loops_duplicated_final_point_stripped(self):
-        path = PathData(None)
-        actual = path.to_loops(
+        tracer = SvgLoopTracer()
+        actual = tracer.to_loops(
             [('M', 1, 2), ('L', 3, 4), ('L', 5, 6), ('L', 1, 2), ('Z')])
         expected = [ [(1, -2), (3, -4), (5, -6)], ]
         self.assertEquals(actual, expected)
@@ -227,5 +229,5 @@ class PathDataTest(TestCase):
 
 
 if __name__=='__main__':
-    RunTests(PathDataTest)
+    RunTests(PathDataTest, SvgLoopTracerTest)
 
