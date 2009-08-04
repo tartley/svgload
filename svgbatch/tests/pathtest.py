@@ -28,19 +28,87 @@ class PathDataTest(TestCase):
             self.assertEquals(actual, expected, 'for %s' % (input,))
 
 
-    def test_to_tuples_thorough(self):
-        data = [
+    def assert_to_tuples(self, data):
+        for input, expected in data:
+            pathData = PathData(input)
+            actual = pathData.to_tuples()
+            self.assertEquals(actual, expected, 'for %r' % (input,))
+
+            # test types of int/floats too. assertEquals doesn't
+            for actual_cmd, exp_cmd in zip(actual, expected):
+                for actual_param, exp_param in zip(actual_cmd, exp_cmd):
+                    self.assertEquals(
+                        type(actual_param),
+                        type(exp_param),
+                        'for %r' % (input,))
+
+
+    def test_to_tuples_no_commands(self):
+        self.assert_to_tuples([
             ('',            []),
             (' ',           []),
+        ])
+
+
+    def test_to_tuples_one_command_one_arg(self):
+        self.assert_to_tuples([
             ('a',           [('a',)]),
             (' a ',         [('a',)]),
             ('a1',          [('a', 1)]),
-            ('a-1',         [('a', -1)]),
             (' a 1 ',       [('a', 1)]),
+            ('a-1',         [('a', -1)]),
             (' a -1 ',      [('a', -1)]),
             ('a1.0',        [('a', 1.0)]),
             (' a 1.0 ',     [('a', 1.0)]),
+            ('a-1.0',       [('a', -1.0)]),
             (' a -1.0 ',    [('a', -1.0)]),
+        ])
+
+    def test_to_tuples_one_command_two_args(self):
+        self.assert_to_tuples([
+            ('a1 2',        [('a', 1, 2)]),
+            ('a1,2',        [('a', 1, 2)]),
+            (' a 1 2 ',     [('a', 1, 2)]),
+            (' a 1,2 ',     [('a', 1, 2)]),
+            (' a 1 , 2 ',   [('a', 1, 2)]),
+
+            ('a-1 -2',      [('a', -1, -2)]),
+            ('a-1,-2',      [('a', -1, -2)]),
+            ('a-1-2',       [('a', -1, -2)]),
+            (' a -1, -2 ',  [('a', -1, -2)]),
+            (' a -1,-2 ',   [('a', -1, -2)]),
+            (' a -1 -2 ',   [('a', -1, -2)]),
+            (' a -1-2 ',    [('a', -1, -2)]),
+
+            ('a1 -2',       [('a', 1, -2)]),
+            ('a1,-2',       [('a', 1, -2)]),
+            ('a1-2',        [('a', 1, -2)]),
+            (' a 1, -2 ',   [('a', 1, -2)]),
+            (' a 1,-2 ',    [('a', 1, -2)]),
+            (' a 1 -2 ',    [('a', 1, -2)]),
+            (' a 1-2 ',     [('a', 1, -2)]),
+
+            ('a-1-2',       [('a', -1, -2)]),
+            (' a -1 -2 ',   [('a', -1, -2)]),
+            ('a-1,-2',      [('a', -1, -2)]),
+            (' a -1 , -2 ', [('a', -1, -2)]),
+
+            ('a1 -2.0',     [('a', 1, -2.0)]),
+            ('a1,-2.0',     [('a', 1, -2.0)]),
+            ('a1-2.0',      [('a', 1, -2.0)]),
+            (' a 1, -2.0 ', [('a', 1, -2.0)]),
+            (' a 1,-2.0 ',  [('a', 1, -2.0)]),
+            (' a 1 -2.0 ',  [('a', 1, -2.0)]),
+            (' a 1-2.0 ',   [('a', 1, -2.0)]),
+
+            ('a-1.0-2.0',       [('a', -1.0, -2.0)]),
+            (' a -1.0 -2.0 ',   [('a', -1.0, -2.0)]),
+            (' a -1.0,-2.0 ',   [('a', -1.0, -2.0)]),
+            (' a -1.0 , -2.0 ', [('a', -1.0, -2.0)]),
+        ])
+
+    def test_to_tuples_two_commands(self):
+        self.assert_to_tuples([
             ('ab',          [('a',), ('b',)]),
             ('a b',         [('a',), ('b',)]),
             (' a b ',       [('a',), ('b',)]),
@@ -74,41 +142,21 @@ class PathDataTest(TestCase):
             ('a1.0 b2.0',   [('a', 1.0), ('b', 2.0)]),
             (' a 1.0 b 2.0 ',   [('a', 1.0), ('b', 2.0)]),
             (' a -1.0 b -2.0 ',   [('a', -1.0), ('b', -2.0)]),
-            ('a1,2',        [('a', 1, 2),]),
-            ('a1,-2',       [('a', 1, -2),]),
-            ('a1 2',        [('a', 1, 2),]),
-            ('a1 -2',       [('a', 1, -2), ]),
-            (' a 1, 2 ',    [('a', 1, 2), ]),
-            (' a 1, -2 ',   [('a', 1, -2), ]),
-            (' a 1,2 ',     [('a', 1, 2), ]),
-            (' a 1,-2 ',    [('a', 1, -2), ]),
-            (' a 1 2 ',     [('a', 1, 2), ]),
-            (' a 1 -2 ',    [('a', 1, -2), ]),
-            ('a1 2',        [('a', 1, 2), ]),
-            ('a1 2.0',      [('a', 1, 2.0), ]),
             ('a1,2b',       [('a', 1, 2), ('b',)]),
             ('a-1,-2b',     [('a', -1, -2), ('b',)]),
             ('a1 2b',       [('a', 1, 2), ('b',)]),
             ('a-1 -2b',     [('a', -1, -2), ('b',)]),
+        ])
+
+    def test_to_tuples_many_commands(self):
+        self.assert_to_tuples([
             ('aaaaa',       [('a', ), ('a', ), ('a', ), ('a', ), ('a', ),]),
             ('abcde',       [('a', ), ('b', ), ('c', ), ('d', ), ('e', ),]),
             ('a a a a a',   [('a', ), ('a', ), ('a', ), ('a', ), ('a', ),]),
             ('a b c d e',   [('a', ), ('b', ), ('c', ), ('d', ), ('e', ),]),
             ('a1,2,3,4,5',  [('a', 1, 2, 3, 4, 5)]),
             ('a1 2 3 4 5',  [('a', 1, 2, 3, 4, 5)]),
-        ]
-        for input, expected in data:
-            pathData = PathData(input)
-            actual = pathData.to_tuples()
-            self.assertEquals(actual, expected, 'for %r' % (input,))
-
-            # test types of int/floats too. assertEquals doesn't
-            for actual_cmd, exp_cmd in zip(actual, expected):
-                for actual_param, exp_param in zip(actual_cmd, exp_cmd):
-                    self.assertEquals(
-                        type(actual_param),
-                        type(exp_param),
-                        'for %s' % (input,))
+        ])
 
 
     def test_to_tuples_bad(self):
@@ -148,7 +196,6 @@ class PathDataTest(TestCase):
             'loop needs 3 or more verts',
             path.to_loops, [('M', 1, 2), ('L', 3, 4), ('Z')]
         )
-        # has only 2 unique verts
         self.assertRaisesWithMessage(
             ParseError,
             'loop needs 3 or more verts',
