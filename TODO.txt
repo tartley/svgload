@@ -4,27 +4,22 @@ CRITICAL
 * add to PyPI
 * use in SoleScion
 
-REFACTORING
-
-* Separate svg loader from the data that is loaded?
-* Separate svg loader from resulting use in a batch - other people might use
-  svgloading for other purposes (eg. display list a la squirtle)
-
 OPTIONAL
 
 + color gradients
 + opacity
 + override calculated anchor with a point from the svg
-* render arcs by polygonising them
-* expose arcs as circular collision boundaries
-* beziers & other svg primitives
+* render elliptical arcs by polygonising them
+* expose elliptical arcs as circular collision boundaries
+* render bezier arcs by polygonising them
 * consider making automatic anchor a centroid rather than just the center
+* consider animation - store multiple frames in a single svg file?
 
 PERFORMANCE
 
-* consider forgetting paths that are triangulated, and forgetting
-  triangles that are used in a batch. (or maybe not storing them in the first
-  place - make the operation more functional)
+* consider reclaiming memory by forgetting paths that are triangulated, and
+  forgetting triangles that are used in a batch. (or maybe not storing them in
+  the first place - make the operations more functional?)
 * we can merge some of the vertices that come out of tessellation.
   (try a concave quad to debug this)
 

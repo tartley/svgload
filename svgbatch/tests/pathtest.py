@@ -165,9 +165,9 @@ class PathDataTest(TestCase):
             (' 0', "missing command at 1 in ' 0'"),
             ('-', "missing command at 0 in '-'"),
             ('.', "missing command at 0 in '.'"),
-            (',', "invalid comma at 0 in ','"),
-            (' ,', "invalid comma at 1 in ' ,'"),
-            ('M,', "invalid comma at 1 in 'M,'"),
+            (',', "unexpected comma at 0 in ','"),
+            (' ,', "unexpected comma at 1 in ' ,'"),
+            ('M,', "unexpected comma at 1 in 'M,'"),
         ]
         for input, message in data:
             pathData = PathDataParser()
