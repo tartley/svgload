@@ -1,11 +1,12 @@
 
 CRITICAL
 
-* add to PyPI
 * use in SoleScion
 
 OPTIONAL
 
++ should tests (and my copy of 'mock') be included in sdist?
++ should tests (and 'mock') be placed next to svgbatch, rather than in it?
 + silently ignore svg it can't handle, rather than barfing
 + linear color gradients
 * render elliptical arcs by polygonising them
@@ -19,17 +20,18 @@ PERFORMANCE
 
 * we can merge some of the vertices that come out of tessellation.
   (try a concave quad to debug this)
+* asking the glu tessellation for edge flags should force it to return just
+  GL_TRIANGLES, presumably simplifying and speeding up our tesselation code.
 * consider reclaiming memory by forgetting paths that are triangulated, and
   forgetting triangles that are used in a batch. (or maybe not storing them in
   the first place - make the operations more functional?)
 
 NOT PLANNED
 
-* bezier arcs probably not going to happen, since I have no currently known
-  use for them in my game project.
-* radial gradients are probably not going to happen, since they end up
-  looking kinda wonky in OpenGL unless you add a bunch of extra vertices
-  to smooth them out.
+* bezier arcs probably not going to happen - I just don't care.
+* radial gradients probably not going to happen, since as far as I can see,
+  they are going to end up looking kinda wonky in OpenGL unless you add a bunch
+  of extra vertices to smooth them out.
 * Line paths and other svg entities, like rectangles, are probably not going
   to happen. I don't see the utility - I might as well just draw everything
   as polygons.

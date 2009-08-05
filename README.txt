@@ -85,7 +85,7 @@ returned Path object has the following attributes:
 
 =Plans=
 
-See [http://code.google.com/p/svgload/source/browse/trunk/TODO.txt TODO.txt]
+See [http://code.google.com/p/svgload/source/browse/trunk/docs/TODO.txt TODO.txt]
 
 
 =Acknowledgements=
