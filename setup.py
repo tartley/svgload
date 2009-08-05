@@ -4,15 +4,6 @@ from distutils.core import setup
 
 from svgbatch import __version__
 
-# prevent setuptools including all files from subversion in sdist
-# from setuptools.command import sdist
-# del sdist.finders[:]
-
-# prevent setuptools caching file manifest from previous runs
-# from os import remove
-# from os.path import join
-# remove(join('svgbatch.egg-info', 'SOURCES.txt'))
-
 
 long_description = '''
 The polygons from the SVG file are tesselated using GLU functions, and used to
@@ -37,10 +28,10 @@ setup(
       'Loads SVG files into pyglet Batch objects for OpenGL rendering.',
     long_description=long_description,
     url='http://code.google.com/p/svgload/',
+    license='BSD',
     author='Jonathan Hartley',
     author_email='tartley@tartley.com',
     provides=['svgbatch'],
-    scripts=['demo.py', 'bin\run_tests.bat'],
     packages=['svgbatch'],
 )
 
