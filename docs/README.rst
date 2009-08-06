@@ -1,7 +1,7 @@
 SvgBatch
 --------
 
-The project homepage at `http://code.google.com/p/svgload`__ has the most up-to-date documentation and downloads for this project.
+See the project homepage at `http://code.google.com/p/svgload`__.
 
 __ http://code.google.com/p/svgload
 
@@ -88,11 +88,11 @@ where ``pathid`` is the string ID of the path tag in the SVG file. This can be
 set from within Inkscape by selecting `Object properties` for the path. The
 returned Path object has the following attributes:
 
-  * **id**: string, copied from the svg tag's id attribute
-  * **color**: triple of unsigned bytes, (r, g, b)
-  * **loops**: a list of loops. A loop is a list of vertices. A vertex is a pair of floats or ints.
-  * **bounds**: an object which provides the axis-aligned extents of the path, as **xmin**, **xmax**, **ymin**, **ymax**.
-  * **offset(x, y)**: a method which will add the given offset to all vertices in the path
+  * ``id``: string, copied from the svg tag's id attribute
+  * ``color``: triple of unsigned bytes, (r, g, b)
+  * ``loops``: a list of loops. A loop is a list of vertices. A vertex is a pair of floats or ints.
+  * ``bounds``: an object which provides the axis-aligned extents of the path, as ``xmin``, ``xmax``, ``ymin``, ``ymax``.
+  * ``offset(x, y)``: a method which will add the given offset to all vertices in the path
 
 
 Known Issues

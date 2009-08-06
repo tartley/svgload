@@ -218,3 +218,15 @@ p.sidebar-subtitle {
   font-style: italic;
   color: #003a6b;
 }
+
+
+ul {
+  padding-left: 0em;
+  margin-left: 0em;
+}
+
+pre.literal-block {
+  padding-left: 2em;
+  margin-left: 0em;
+}
+

@@ -228,6 +228,18 @@ p.sidebar-subtitle {
   color: #003a6b;
 }
 
+
+ul {
+  padding-left: 0em;
+  margin-left: 0em;
+}
+
+pre.literal-block {
+  padding-left: 2em;
+  margin-left: 0em;
+}
+
+
 </style>
 </head>
 <body>
@@ -236,7 +248,7 @@ p.sidebar-subtitle {
 
 <div class="section" id="svgbatch">
 <h1>SvgBatch</h1>
-<p>The project homepage at <a class="reference external" href="http://code.google.com/p/svgload">http://code.google.com/p/svgload</a> has the most up-to-date documentation and downloads for this project.</p>
+<p>See the project homepage at <a class="reference external" href="http://code.google.com/p/svgload">http://code.google.com/p/svgload</a>.</p>
 </div>
 <div class="section" id="description">
 <h1>Description</h1>
@@ -295,11 +307,11 @@ set from within Inkscape by selecting <cite>Object properties</cite> for the pat
 returned Path object has the following attributes:</p>
 <blockquote>
 <ul class="simple">
-<li><strong>id</strong>: string, copied from the svg tag's id attribute</li>
-<li><strong>color</strong>: triple of unsigned bytes, (r, g, b)</li>
-<li><strong>loops</strong>: a list of loops. A loop is a list of vertices. A vertex is a pair of floats or ints.</li>
-<li><strong>bounds</strong>: an object which provides the axis-aligned extents of the path, as <strong>xmin</strong>, <strong>xmax</strong>, <strong>ymin</strong>, <strong>ymax</strong>.</li>
-<li><strong>offset(x, y)</strong>: a method which will add the given offset to all vertices in the path</li>
+<li><tt class="docutils literal"><span class="pre">id</span></tt>: string, copied from the svg tag's id attribute</li>
+<li><tt class="docutils literal"><span class="pre">color</span></tt>: triple of unsigned bytes, (r, g, b)</li>
+<li><tt class="docutils literal"><span class="pre">loops</span></tt>: a list of loops. A loop is a list of vertices. A vertex is a pair of floats or ints.</li>
+<li><tt class="docutils literal"><span class="pre">bounds</span></tt>: an object which provides the axis-aligned extents of the path, as <tt class="docutils literal"><span class="pre">xmin</span></tt>, <tt class="docutils literal"><span class="pre">xmax</span></tt>, <tt class="docutils literal"><span class="pre">ymin</span></tt>, <tt class="docutils literal"><span class="pre">ymax</span></tt>.</li>
+<li><tt class="docutils literal"><span class="pre">offset(x,</span> <span class="pre">y)</span></tt>: a method which will add the given offset to all vertices in the path</li>
 </ul>
 </blockquote>
 </div>
