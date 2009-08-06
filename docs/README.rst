@@ -1,6 +1,3 @@
-SvgBatch
---------
-
 See the project homepage at `http://code.google.com/p/svgload`__.
 
 __ http://code.google.com/p/svgload
@@ -15,13 +12,14 @@ __ http://www.w3.org/TR/SVG11
 __ http://www.pyglet.org
 
 The polygons from the SVG file are tessellated using `GLU functions`__, and
-used to create a pyglet Batch object of indexed vertex arrays of GL_TRIANGLES.
-The Batch will aggregate all paths from an SVG file into a single OpenGL
-primitive for rendering. Each path is also exposed in its untessellated form,
-so the application could use them for things other than rendering, for
+used to create a `pyglet Batch object`__ of indexed vertex arrays of
+GL_TRIANGLES. The Batch will aggregate all paths from an SVG file into a single
+OpenGL primitive for rendering. Each path is also exposed in its untessellated
+form, so the application could use them for things other than rendering, for
 example collision detection.
 
 __ http://www.glprogramming.com/red/chapter11.html
+__ http://www.pyglet.org/doc/api/pyglet.graphics.Batch-class.html
 
 Currently only a subset of SVG is handled - paths forming closed polygons,
 filled with solid color. Each path may comprise multiple loops (disjoint areas
@@ -73,10 +71,9 @@ Very straightforward::
     svg = SvgBatch('data/logo.svg')
     batch = svg.create_batch()
 
-``create_batch()`` returns a `pyglet Batch object`__, which can be rendered in
+``create_batch()`` returns a pyglet Batch object, which can be rendered in
 a pyglet program using ``batch.draw()`` (see `demo.py`__.)
 
-__ http://www.pyglet.org/doc/api/index.html 
 __ http://code.google.com/p/svgload/source/browse/trunk/demo.py
 
 Your application can access the untessellated geometry of each path, indexed
@@ -98,7 +95,7 @@ returned Path object has the following attributes:
 Known Issues
 ------------
 
-  * It generally chokes on real-world SVG files other than the small ones I'm saving from Inkscape, due to unhandled SVG entities such as rectangles or text. Avoid this by just using closed straight-edged paths filled with plain color.
+  * It generally chokes on real-world SVG files other than the small ones I'm saving from Inkscape, due to unhandled SVG entities such as rectangles or text. Avoid this by just using closed, straight-edged paths filled with plain color.
   * I've only tested it on Windows. My lappy graphics chipset doesn't work for OpenGL stuff on Ubuntu Jaunty, due to the fact that ATI blows sweaty donkey nuts.
 
 
@@ -107,7 +104,7 @@ Plans
 
 See TODO.txt__
 
-__ http://code.google.com/p/svgload/source/browse/trunk/TODO.txt 
+__ http://code.google.com/p/svgload/source/browse/trunk/docs/TODO.txt 
 
 
 Acknowledgements
@@ -121,7 +118,7 @@ BSD.
 __ http://www.supereffective.org
 __ http://www.supereffective.org/pages/Squirtle-SVG-Library 
 
-This project requires the fabulous pyglet__.
+This project would be naught without the fabulous pyglet__.
 
 __ http://www.pyglet.org 
 

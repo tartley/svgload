@@ -1,25 +1,12 @@
 #!/usr/bin/env python
 
 from distutils.core import setup
+from os.path import dirname, join
 
 from svgbatch import __version__
 
-
-long_description = '''
-The polygons from the SVG file are tesselated using GLU functions, and used to
-create a pyglet Batch object of indexed vertex arrays. The Batch will aggregate
-all paths from an SVG file into a single OpenGL GL_TRIANGLES primitive for
-rendering. Each path is also exposed in its untessellated form, indexed by 'id'
-attribute, so the application could use them for collision detection, for
-example.
-
-Currently only a subset of SVG is handled - closed polygons, filled with solid
-color. These may comprise multiple loops (disjoint areas or holes), but must be
-made up from straight line edges. Arc polygon edges, gradient fills and other
-SVG entities (such as rectangles or text) are not currently handled.
-
-Requires pyglet.
-'''[1:-1].replace('\n', ' ')
+readme = join(dirname(__file__), 'docs', 'README.rst')
+long_description = open(readme).read()
 
 setup(
     name='svgbatch',
