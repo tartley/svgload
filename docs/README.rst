@@ -6,8 +6,8 @@ __ http://pypi.python.org/pypi/svgbatch
 Description
 -----------
 
-SvgBatch is a Python package to load `SVG`__ vector graphic files, and convert
-them into `pyglet`__ Batch objects, for OpenGL rendering.
+SvgBatch is a pure Python package to load `SVG`__ vector graphic files, and
+convert them into `pyglet`__ Batch objects, for OpenGL rendering.
 
 __ http://www.w3.org/TR/SVG11
 __ http://www.pyglet.org
@@ -51,9 +51,10 @@ this automatically with the command-line::
 
     easy_install svgbatch
 
-Alternatively, download the `source distribution from Google Code`__:
+Alternatively, download the source distribution from the bottom of `the
+project PyPI page`__:
 
-__ http://code.google.com/p/svgload
+__ http://pypi.python.org/pypi/svgbatch
 
 The svgbatch directory from this can be incorporated as a package directly
 within your own project's source, or else installed to your *site-packages*

@@ -52,9 +52,12 @@ this automatically with the command-line::
 
     easy_install svgbatch
 
-Alternatively, download the source distribution from Google Code:
 
-    http://code.google.com/p/svgload
+Alternatively, download the source distribution from the bottom of the
+project PyPI page:
+
+    http://pypi.python.org/pypi/svgbatch
+
 
 The svgbatch directory from this can be incorporated as a package directly
 within your own project's source, or else installed to your *site-packages*
