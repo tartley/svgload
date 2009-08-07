@@ -1,7 +1,7 @@
 svgbatch
 --------
 
-The latest version of this documentation is online at `http://code.google.com/p/svgload`__
+The latest version of this documentation is online at `http://pypi.python.org/pypi/svgbatch`__
 
 __ http://pypi.python.org/pypi/svgbatch
 
