@@ -1,10 +1,9 @@
+svgbatch
+--------
+
 The latest version of this documentation is online at `http://code.google.com/p/svgload`__
 
 __ http://pypi.python.org/pypi/svgbatch
-
-
-Description
------------
 
 SvgBatch is a pure Python package to load `SVG`__ vector graphic files, and
 convert them into `pyglet`__ Batch objects, for OpenGL rendering.
@@ -23,12 +22,15 @@ __ http://www.glprogramming.com/red/chapter11.html
 __ http://www.pyglet.org/doc/api/pyglet.graphics.Batch-class.html
 
 Currently only a subset of SVG is handled - paths forming closed polygons,
-filled with solid color. Each path may comprise multiple loops (disjoint areas
+filled with solid color. Each path may comprise multiple loops (disjoint areas  
 or holes), but must be made up from straight line edges. Arcs, beziers,
 gradient fills and other SVG entities such as rectangles or text are not
 currently handled.
 
-Requires `pyglet`__.
+Dependencies
+------------
+
+Only tested on Windows, but should be cross-platform. Only tested on Python 2.5 and 2.6. Requires the fabulous `pyglet`__.
 
 __ http://www.pyglet.org 
 
@@ -78,7 +80,7 @@ Very straightforward::
 ``create_batch()`` returns a pyglet Batch object, which can be rendered in
 a pyglet program using ``batch.draw()`` (see `demo.py`__.)
 
-__ http://code.google.com/p/svgload/source/browse/trunk/demo.py
+__ http://code.google.com/p/svgload/source/browse/trunk/svgbatch/demo.py
 
 Your application can access the untessellated geometry of each path, indexed
 by id, using::
@@ -91,16 +93,23 @@ Path object has the following attributes:
 
   * ``id``: string, copied from the svg tag's id attribute
   * ``color``: triple of unsigned bytes, (r, g, b)
-  * ``loops``: a list of loops. A loop is a list of vertices. A vertex is a pair of floats or ints.
-  * ``bounds``: an object which provides the axis-aligned extents of the path, as ``xmin``, ``xmax``, ``ymin``, ``ymax``.
-  * ``offset(x, y)``: a method which will add the given offset to all vertices in the path
+  * ``loops``: a list of loops. A loop is a list of vertices representing a
+    closed polygonal boundary (which may be convex.) A vertex is a pair of
+    floats or ints.
+  * ``bounds``: an object which provides the path's axis-aligned extents, as
+    ``xmin``, ``xmax``, ``ymin`` and ``ymax``.
+  * ``offset(x, y)``: adds the given offset to all vertices in the path
 
 
 Known Issues
 ------------
 
-  * It generally chokes on real-world SVG files other than the small ones I'm saving from Inkscape, due to unhandled SVG entities such as rectangles or text. Avoid this by just using closed, straight-edged paths filled with plain color.
-  * I've only tested it on Windows. My lappy graphics chipset doesn't work for OpenGL stuff on Ubuntu since Jaunty. Thanks ATI.
+  * It generally chokes on real-world SVG files other than the small ones I'm
+    saving from Inkscape, due to unhandled SVG entities such as rectangles or
+    text. Avoid this by just using closed, straight-edged paths filled with
+    plain color.
+  * I've only tested it on Windows. My lappy graphics chipset doesn't work for
+    OpenGL stuff on Ubuntu since Jaunty. Thanks ATI.
 
 
 Plans
@@ -114,7 +123,7 @@ __ http://code.google.com/p/svgload/source/browse/trunk/docs/TODO.txt
 Acknowledgements
 ----------------
 
-Many thanks to Martin O'Leary of supereffective.org__, whos Squirtle__ module
+Many thanks to Martin O'Leary of supereffective.org__, whose Squirtle__ module
 formed a major inspiration for this project, and in particular for his
 sublime tesselation code, which I have copied wholesale under the terms of the
 BSD.
@@ -123,12 +132,9 @@ __ http://www.supereffective.org
 __ http://www.supereffective.org/pages/Squirtle-SVG-Library 
 
 
-This project's tests use `voidspace's superbly useful mock library`__.
+This project's tests use a slightly-modified embedded copy of `voidspace's
+superbly useful mock library`__.
 
 __ http://www.voidspace.org.uk/python/mock
 
-
-This project would be naught without `the fabulous pyglet`__.
-
-__ http://www.pyglet.org 
 

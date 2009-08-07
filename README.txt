@@ -1,10 +1,9 @@
+svgbatch
+========
+
 The latest version of this documentation is online at:
 
     http://code.google.com/p/svgload
-
-
-Description
------------
 
 SvgBatch is a Python package to load SVG vector graphic files, and convert
 them into pyglet Batch objects, for OpenGL rendering.
@@ -79,9 +78,9 @@ Very straightforward::
     batch = svg.create_batch()
 
 `create_batch()` returns a pyglet Batch object, which can be rendered in
-a pyglet program using `batch.draw()`. See `demo.py`:
+a pyglet program using `batch.draw()`. See `svgbatch/demo.py`:
 
-    http://code.google.com/p/svgload/source/browse/trunk/demo.py
+    http://code.google.com/p/svgload/source/browse/trunk/svgbatch/demo.py
 
 Your application can access the untessellated geometry of each path, indexed
 by id, using::

@@ -16,13 +16,16 @@ from pyglet.gl import (
 )
 from pyglet.gl.glu import gluOrtho2D
 
-from svgbatch.svgbatch import SvgBatch
+from svgbatch import SvgBatch
 
 
 class SvgFiles(object):
 
     def __init__(self):
-        self.filenames = self.get_filenames('testdata')
+        self.filenames = self.get_filenames(join('svgbatch', 'testdata'))
+        if len(self.filenames) == 0:
+            raise Exception('no testdata svg files found')
+
         self.number = -1
         self.current = None
         self.next()

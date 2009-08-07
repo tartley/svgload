@@ -224,7 +224,6 @@ class Path(object):
         tracer = SvgLoopTracer()
         self.loops = tracer.to_loops(path_tuple)
         self.bounds.add_bounds(tracer.bounds)
-        print self.loops
 
 
     def offset(self, x, y):

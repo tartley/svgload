@@ -5,8 +5,6 @@ CRITICAL
 
 OPTIONAL
 
-+ should tests (and my copy of 'mock') be included in sdist?
-+ should tests (and 'mock') be placed next to svgbatch, rather than in it?
 + silently ignore svg it can't handle, rather than barfing
 + linear color gradients
 * render elliptical arcs by polygonising them
@@ -57,4 +55,6 @@ DONE
 * SvgLoader should expose aggregate attributes like width, height.
 * Batch could be a property of svgloader
 + expose named paths by id, for eg. collision detection
++ upload to PyPI
++ tests (and my copy of 'mock') are now included in sdist
 

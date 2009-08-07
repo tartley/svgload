@@ -246,11 +246,11 @@ pre.literal-block {
 <div class="document">
 
 
+<div class="section" id="svgbatch">
+<h1>svgbatch</h1>
 <p>The latest version of this documentation is online at <a class="reference external" href="http://pypi.python.org/pypi/svgbatch">http://code.google.com/p/svgload</a></p>
-<div class="section" id="description">
-<h1>Description</h1>
-<p>SvgBatch is a Python package to load <a class="reference external" href="http://www.w3.org/TR/SVG11">SVG</a> vector graphic files, and convert
-them into <a class="reference external" href="http://www.pyglet.org">pyglet</a> Batch objects, for OpenGL rendering.</p>
+<p>SvgBatch is a pure Python package to load <a class="reference external" href="http://www.w3.org/TR/SVG11">SVG</a> vector graphic files, and
+convert them into <a class="reference external" href="http://www.pyglet.org">pyglet</a> Batch objects, for OpenGL rendering.</p>
 <p>The polygons from the SVG file are tessellated using <a class="reference external" href="http://www.glprogramming.com/red/chapter11.html">GLU functions</a>, and
 used to create a <a class="reference external" href="http://www.pyglet.org/doc/api/pyglet.graphics.Batch-class.html">pyglet Batch object</a> of indexed vertex arrays of
 GL_TRIANGLES. The Batch will aggregate all paths from an SVG file into a single
@@ -262,7 +262,10 @@ filled with solid color. Each path may comprise multiple loops (disjoint areas
 or holes), but must be made up from straight line edges. Arcs, beziers,
 gradient fills and other SVG entities such as rectangles or text are not
 currently handled.</p>
-<p>Requires <a class="reference external" href="http://www.pyglet.org">pyglet</a>.</p>
+</div>
+<div class="section" id="dependencies">
+<h1>Dependencies</h1>
+<p>Only tested on Windows, but should be cross-platform. Only tested on Python 2.5 and 2.6. Requires the fabulous <a class="reference external" href="http://www.pyglet.org">pyglet</a>.</p>
 </div>
 <div class="section" id="status">
 <h1>Status</h1>
@@ -277,7 +280,8 @@ this automatically with the command-line:</p>
 <pre class="literal-block">
 easy_install svgbatch
 </pre>
-<p>Alternatively, download the <a class="reference external" href="http://code.google.com/p/svgload">source distribution from Google Code</a>:</p>
+<p>Alternatively, download the source distribution from the bottom of <a class="reference external" href="http://pypi.python.org/pypi/svgbatch">the
+project PyPI page</a>:</p>
 <p>The svgbatch directory from this can be incorporated as a package directly
 within your own project's source, or else installed to your <em>site-packages</em>
 using:</p>
@@ -294,7 +298,7 @@ svg = SvgBatch('data/logo.svg')
 batch = svg.create_batch()
 </pre>
 <p><tt class="docutils literal"><span class="pre">create_batch()</span></tt> returns a pyglet Batch object, which can be rendered in
-a pyglet program using <tt class="docutils literal"><span class="pre">batch.draw()</span></tt> (see <a class="reference external" href="http://code.google.com/p/svgload/source/browse/trunk/demo.py">demo.py</a>.)</p>
+a pyglet program using <tt class="docutils literal"><span class="pre">batch.draw()</span></tt> (see <a class="reference external" href="http://code.google.com/p/svgload/source/browse/trunk/svgbatch/demo.py">demo.py</a>.)</p>
 <p>Your application can access the untessellated geometry of each path, indexed
 by id, using:</p>
 <pre class="literal-block">
@@ -307,9 +311,12 @@ Path object has the following attributes:</p>
 <ul class="simple">
 <li><tt class="docutils literal"><span class="pre">id</span></tt>: string, copied from the svg tag's id attribute</li>
 <li><tt class="docutils literal"><span class="pre">color</span></tt>: triple of unsigned bytes, (r, g, b)</li>
-<li><tt class="docutils literal"><span class="pre">loops</span></tt>: a list of loops. A loop is a list of vertices. A vertex is a pair of floats or ints.</li>
-<li><tt class="docutils literal"><span class="pre">bounds</span></tt>: an object which provides the axis-aligned extents of the path, as <tt class="docutils literal"><span class="pre">xmin</span></tt>, <tt class="docutils literal"><span class="pre">xmax</span></tt>, <tt class="docutils literal"><span class="pre">ymin</span></tt>, <tt class="docutils literal"><span class="pre">ymax</span></tt>.</li>
-<li><tt class="docutils literal"><span class="pre">offset(x,</span> <span class="pre">y)</span></tt>: a method which will add the given offset to all vertices in the path</li>
+<li><tt class="docutils literal"><span class="pre">loops</span></tt>: a list of loops. A loop is a list of vertices representing a
+closed polygonal boundary (which may be convex.) A vertex is a pair of
+floats or ints.</li>
+<li><tt class="docutils literal"><span class="pre">bounds</span></tt>: an object which provides the path's axis-aligned extents, as
+<tt class="docutils literal"><span class="pre">xmin</span></tt>, <tt class="docutils literal"><span class="pre">xmax</span></tt>, <tt class="docutils literal"><span class="pre">ymin</span></tt> and <tt class="docutils literal"><span class="pre">ymax</span></tt>.</li>
+<li><tt class="docutils literal"><span class="pre">offset(x,</span> <span class="pre">y)</span></tt>: adds the given offset to all vertices in the path</li>
 </ul>
 </blockquote>
 </div>
@@ -317,8 +324,12 @@ Path object has the following attributes:</p>
 <h1>Known Issues</h1>
 <blockquote>
 <ul class="simple">
-<li>It generally chokes on real-world SVG files other than the small ones I'm saving from Inkscape, due to unhandled SVG entities such as rectangles or text. Avoid this by just using closed, straight-edged paths filled with plain color.</li>
-<li>I've only tested it on Windows. My lappy graphics chipset doesn't work for OpenGL stuff on Ubuntu since Jaunty. Thanks ATI.</li>
+<li>It generally chokes on real-world SVG files other than the small ones I'm
+saving from Inkscape, due to unhandled SVG entities such as rectangles or
+text. Avoid this by just using closed, straight-edged paths filled with
+plain color.</li>
+<li>I've only tested it on Windows. My lappy graphics chipset doesn't work for
+OpenGL stuff on Ubuntu since Jaunty. Thanks ATI.</li>
 </ul>
 </blockquote>
 </div>
@@ -328,12 +339,12 @@ Path object has the following attributes:</p>
 </div>
 <div class="section" id="acknowledgements">
 <h1>Acknowledgements</h1>
-<p>Many thanks to Martin O'Leary of <a class="reference external" href="http://www.supereffective.org">supereffective.org</a>, whos <a class="reference external" href="http://www.supereffective.org/pages/Squirtle-SVG-Library">Squirtle</a> module
+<p>Many thanks to Martin O'Leary of <a class="reference external" href="http://www.supereffective.org">supereffective.org</a>, whose <a class="reference external" href="http://www.supereffective.org/pages/Squirtle-SVG-Library">Squirtle</a> module
 formed a major inspiration for this project, and in particular for his
 sublime tesselation code, which I have copied wholesale under the terms of the
 BSD.</p>
-<p>This project's tests use <a class="reference external" href="http://www.voidspace.org.uk/python/mock">voidspace's superbly useful mock library</a>.</p>
-<p>This project would be naught without <a class="reference external" href="http://www.pyglet.org">the fabulous pyglet</a>.</p>
+<p>This project's tests use a slightly-modified embedded copy of <a class="reference external" href="http://www.voidspace.org.uk/python/mock">voidspace's
+superbly useful mock library</a>.</p>
 </div>
 </div>
 </body>
