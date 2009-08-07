@@ -40,26 +40,27 @@ Inkscape[5], but has not yet been used in earnest.
 Download
 --------
 
-You can import this package in your own Python projects by installing it to
-your *site-packages* directory. If you have setuptools installed, do
-this automatically with the command-line::
+You can install svgbatch to your site-packages directory, making it available
+for import by all Python programs on your computer. The automated way to do
+this is to install setuptools, then use the command-line:
 
     easy_install svgbatch
 
-
-Alternatively, download the source distribution from the bottom of the
-project PyPI page:
+The manual way to do the same thing is to download the source distribution
+from the bottom of the project PyPI page:
 
     http://pypi.python.org/pypi/svgbatch
 
-
-The svgbatch directory from this can be incorporated as a package directly
-within your own project's source, or else installed to your *site-packages*
-using::
+and install manually, using the command-line:
 
     python setup.py install
 
-Finally, you could check it out from Subversion on Google Code:
+Alternatively, the svgbatch package from the above source distribution can
+be copied directly into your own project, which might be useful if you intend
+to modify it.
+
+Finally, to get the very latest (possibly broken) version, you might want to
+check it out from Subversion on Google Code:
 
     http://code.google.com/p/svgload/source/checkout 
 
