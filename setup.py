@@ -19,6 +19,6 @@ setup(
     author='Jonathan Hartley',
     author_email='tartley@tartley.com',
     provides=['svgbatch'],
-    packages=['svgbatch'],
+    packages=['svgbatch', 'svgbatch.tests', 'svgbatch.mock'],
 )
 

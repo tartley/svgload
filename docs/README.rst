@@ -1,6 +1,7 @@
-See the project homepage at `http://code.google.com/p/svgload`__.
+The latest version of this documentation is online at `http://code.google.com/p/svgload`__
 
-__ http://code.google.com/p/svgload
+__ http://pypi.python.org/pypi/svgbatch
+
 
 Description
 -----------
@@ -46,17 +47,19 @@ Download
 
 You can import this package in your own Python projects by installing it to
 your *site-packages* directory. If you have setuptools installed, do
-this with the command-line::
+this automatically with the command-line::
 
     easy_install svgbatch
 
-Alternatively, download the `source distribution from PyPI`__. The svgbatch
-directory from this can be incorporated as a package directly within your own
-project's source, or else installed to *site-packages* using::
+Alternatively, download the `source distribution from Google Code`__:
+
+__ http://code.google.com/p/svgload
+
+The svgbatch directory from this can be incorporated as a package directly
+within your own project's source, or else installed to your *site-packages*
+using::
 
     python setup.py install
-
-__ http://pypi.python.org/pypi/svgbatch
 
 Finally, you could check it out from `Subversion on Google Code`__.
 
@@ -81,9 +84,9 @@ by id, using::
 
     path = svg.path_by_id['pathid']
 
-where ``pathid`` is the string ID of the path tag in the SVG file. This can be
-set from within Inkscape by selecting `Object properties` for the path. The
-returned Path object has the following attributes:
+where ``pathid`` is the string ID of the path tag in the SVG file. A path's ID
+can be set from within Inkscape by editing its object properties. The returned
+Path object has the following attributes:
 
   * ``id``: string, copied from the svg tag's id attribute
   * ``color``: triple of unsigned bytes, (r, g, b)
@@ -96,7 +99,7 @@ Known Issues
 ------------
 
   * It generally chokes on real-world SVG files other than the small ones I'm saving from Inkscape, due to unhandled SVG entities such as rectangles or text. Avoid this by just using closed, straight-edged paths filled with plain color.
-  * I've only tested it on Windows. My lappy graphics chipset doesn't work for OpenGL stuff on Ubuntu Jaunty, due to the fact that ATI blows sweaty donkey nuts.
+  * I've only tested it on Windows. My lappy graphics chipset doesn't work for OpenGL stuff on Ubuntu since Jaunty. Thanks ATI.
 
 
 Plans
@@ -111,14 +114,20 @@ Acknowledgements
 ----------------
 
 Many thanks to Martin O'Leary of supereffective.org__, whos Squirtle__ module
-formed a major inspiration for this entire project, and in particular for his
+formed a major inspiration for this project, and in particular for his
 sublime tesselation code, which I have copied wholesale under the terms of the
 BSD.
 
 __ http://www.supereffective.org
 __ http://www.supereffective.org/pages/Squirtle-SVG-Library 
 
-This project would be naught without the fabulous pyglet__.
+
+This project's tests use `voidspace's superbly useful mock library`__.
+
+__ http://www.voidspace.org.uk/python/mock
+
+
+This project would be naught without `the fabulous pyglet`__.
 
 __ http://www.pyglet.org 
 

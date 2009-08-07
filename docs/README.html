@@ -246,19 +246,16 @@ pre.literal-block {
 <div class="document">
 
 
-<div class="section" id="svgbatch">
-<h1>SvgBatch</h1>
-<p>See the project homepage at <a class="reference external" href="http://code.google.com/p/svgload">http://code.google.com/p/svgload</a>.</p>
-</div>
+<p>The latest version of this documentation is online at <a class="reference external" href="http://pypi.python.org/pypi/svgbatch">http://code.google.com/p/svgload</a></p>
 <div class="section" id="description">
 <h1>Description</h1>
 <p>SvgBatch is a Python package to load <a class="reference external" href="http://www.w3.org/TR/SVG11">SVG</a> vector graphic files, and convert
 them into <a class="reference external" href="http://www.pyglet.org">pyglet</a> Batch objects, for OpenGL rendering.</p>
 <p>The polygons from the SVG file are tessellated using <a class="reference external" href="http://www.glprogramming.com/red/chapter11.html">GLU functions</a>, and
-used to create a pyglet Batch object of indexed vertex arrays of GL_TRIANGLES.
-The Batch will aggregate all paths from an SVG file into a single OpenGL
-primitive for rendering. Each path is also exposed in its untessellated form,
-so the application could use them for things other than rendering, for
+used to create a <a class="reference external" href="http://www.pyglet.org/doc/api/pyglet.graphics.Batch-class.html">pyglet Batch object</a> of indexed vertex arrays of
+GL_TRIANGLES. The Batch will aggregate all paths from an SVG file into a single
+OpenGL primitive for rendering. Each path is also exposed in its untessellated
+form, so the application could use them for things other than rendering, for
 example collision detection.</p>
 <p>Currently only a subset of SVG is handled - paths forming closed polygons,
 filled with solid color. Each path may comprise multiple loops (disjoint areas
@@ -276,13 +273,14 @@ currently handled.</p>
 <h1>Download</h1>
 <p>You can import this package in your own Python projects by installing it to
 your <em>site-packages</em> directory. If you have setuptools installed, do
-this with the command-line:</p>
+this automatically with the command-line:</p>
 <pre class="literal-block">
 easy_install svgbatch
 </pre>
-<p>Alternatively, download the <a class="reference external" href="http://pypi.python.org/pypi/svgbatch">source distribution from PyPI</a>. The svgbatch
-directory from this can be incorporated as a package directly within your own
-project's source, or else installed to <em>site-packages</em> using:</p>
+<p>Alternatively, download the <a class="reference external" href="http://code.google.com/p/svgload">source distribution from Google Code</a>:</p>
+<p>The svgbatch directory from this can be incorporated as a package directly
+within your own project's source, or else installed to your <em>site-packages</em>
+using:</p>
 <pre class="literal-block">
 python setup.py install
 </pre>
@@ -295,16 +293,16 @@ python setup.py install
 svg = SvgBatch('data/logo.svg')
 batch = svg.create_batch()
 </pre>
-<p><tt class="docutils literal"><span class="pre">create_batch()</span></tt> returns a <a class="reference external" href="http://www.pyglet.org/doc/api/index.html">pyglet Batch object</a>, which can be rendered in
+<p><tt class="docutils literal"><span class="pre">create_batch()</span></tt> returns a pyglet Batch object, which can be rendered in
 a pyglet program using <tt class="docutils literal"><span class="pre">batch.draw()</span></tt> (see <a class="reference external" href="http://code.google.com/p/svgload/source/browse/trunk/demo.py">demo.py</a>.)</p>
 <p>Your application can access the untessellated geometry of each path, indexed
 by id, using:</p>
 <pre class="literal-block">
 path = svg.path_by_id['pathid']
 </pre>
-<p>where <tt class="docutils literal"><span class="pre">pathid</span></tt> is the string ID of the path tag in the SVG file. This can be
-set from within Inkscape by selecting <cite>Object properties</cite> for the path. The
-returned Path object has the following attributes:</p>
+<p>where <tt class="docutils literal"><span class="pre">pathid</span></tt> is the string ID of the path tag in the SVG file. A path's ID
+can be set from within Inkscape by editing its object properties. The returned
+Path object has the following attributes:</p>
 <blockquote>
 <ul class="simple">
 <li><tt class="docutils literal"><span class="pre">id</span></tt>: string, copied from the svg tag's id attribute</li>
@@ -319,22 +317,23 @@ returned Path object has the following attributes:</p>
 <h1>Known Issues</h1>
 <blockquote>
 <ul class="simple">
-<li>It generally chokes on real-world SVG files other than the small ones I'm saving from Inkscape, due to unhandled SVG entities such as rectangles or text. Avoid this by just using closed straight-edged paths filled with plain color.</li>
-<li>I've only tested it on Windows. My lappy graphics chipset doesn't work for OpenGL stuff on Ubuntu Jaunty, due to the fact that ATI blows sweaty donkey nuts.</li>
+<li>It generally chokes on real-world SVG files other than the small ones I'm saving from Inkscape, due to unhandled SVG entities such as rectangles or text. Avoid this by just using closed, straight-edged paths filled with plain color.</li>
+<li>I've only tested it on Windows. My lappy graphics chipset doesn't work for OpenGL stuff on Ubuntu since Jaunty. Thanks ATI.</li>
 </ul>
 </blockquote>
 </div>
 <div class="section" id="plans">
 <h1>Plans</h1>
-<p>See <a class="reference external" href="http://code.google.com/p/svgload/source/browse/trunk/TODO.txt">TODO.txt</a></p>
+<p>See <a class="reference external" href="http://code.google.com/p/svgload/source/browse/trunk/docs/TODO.txt">TODO.txt</a></p>
 </div>
 <div class="section" id="acknowledgements">
 <h1>Acknowledgements</h1>
 <p>Many thanks to Martin O'Leary of <a class="reference external" href="http://www.supereffective.org">supereffective.org</a>, whos <a class="reference external" href="http://www.supereffective.org/pages/Squirtle-SVG-Library">Squirtle</a> module
-formed a major inspiration for this entire project, and in particular for his
+formed a major inspiration for this project, and in particular for his
 sublime tesselation code, which I have copied wholesale under the terms of the
 BSD.</p>
-<p>This project requires the fabulous <a class="reference external" href="http://www.pyglet.org">pyglet</a>.</p>
+<p>This project's tests use <a class="reference external" href="http://www.voidspace.org.uk/python/mock">voidspace's superbly useful mock library</a>.</p>
+<p>This project would be naught without <a class="reference external" href="http://www.pyglet.org">the fabulous pyglet</a>.</p>
 </div>
 </div>
 </body>
